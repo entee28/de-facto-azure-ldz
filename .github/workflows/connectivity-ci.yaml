@@ -13,6 +13,10 @@ on:
     paths:
       - "modules/connectivity/**"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terratest-workflow:
     uses: ./.github/workflows/module-terratest.yaml
