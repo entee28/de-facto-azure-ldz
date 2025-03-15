@@ -1,0 +1,24 @@
+name: Connectivity CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "modules/connectivity/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "modules/connectivity/**"
+
+jobs:
+  terratest-workflow:
+    uses: ./.github/workflows/module-terratest.yaml
+    with:
+      working_dir: modules/connectivity
+    secrets:
+      client-id: ${{secrets.CLIENT_ID}}
+      subscription-id: ${{secrets.SUBSCRIPTION_ID}}
+      tenant-id: ${{secrets.TENANT_ID}}

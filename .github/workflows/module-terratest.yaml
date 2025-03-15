@@ -1,0 +1,48 @@
+on:
+  workflow_call:
+    inputs:
+      working_dir:
+        required: true
+        type: string
+    secrets:
+      client-id:
+        required: true
+      subscription-id:
+        required: true
+      tenant-id:
+        required: true
+
+jobs:
+  terratest:
+    name: Terratest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Azure CLI Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.client-id }}
+          tenant-id: ${{ secrets.tenant-id }}
+          subscription-id: ${{ secrets.subscription-id }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11.2"
+
+      - name: Setup Go 1.23.2
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23.2"
+
+      - name: Download Go modules
+        working-directory: ${{ inputs.working_dir }}
+        run: |
+          go mod download
+
+      - name: Run Terratest
+        working-directory: ${{ inputs.working_dir }}
+        run: |
+          go test -v -timeout 30m
