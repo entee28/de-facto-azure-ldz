@@ -61,7 +61,7 @@ func TestConnectivityLDZModule(t *testing.T) {
 		Vars: map[string]interface{}{
 			"company_name":                   "contoso",
 			"subscription_id":                "986c8c85-5175-4773-a272-40983cf0c60d",
-			"location":                       "southeastasia",
+			"location":                       "eastasia",
 			"hub_vnet_address_space":         "10.10.0.0/16",
 			"firewall_subnet_address_prefix": "10.10.0.0/24",
 			"firewall_zones":                 []string{"1"},
