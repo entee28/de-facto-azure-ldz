@@ -35,7 +35,7 @@ func TestConnectivityLDZModule(t *testing.T) {
 		},
 		"test": map[string]interface{}{
 			"name":             "snet-dnspr-outbound-prd-sea-001",
-			"address_prefixes": []string{"10.10.2.0/24"},
+			"address_prefixes": []string{"10.10.3.0/24"},
 			"route_table": map[string]interface{}{
 				"assign_generated_route_table": false,
 				"name":                         "rt-snet-test",
@@ -59,23 +59,15 @@ func TestConnectivityLDZModule(t *testing.T) {
 	terraformOptions := &terraform.Options{
 		TerraformDir: "..",
 		Vars: map[string]interface{}{
-			"company_name":                     "contoso",
-			"subscription_id":                  "986c8c85-5175-4773-a272-40983cf0c60d",
-			"location":                         "southeastasia",
-			"hub_vnet_address_space":           "10.10.0.0/16",
-			"firewall_subnet_address_prefix":   "10.10.0.0/24",
-			"firewall_zones":                   []string{"1"},
-			"route_table_entries_user_subnets": []interface{}{
-				// map[string]interface{}{
-				// 	"name":                "route-to-all",
-				// 	"address_prefix":      "0.0.0.0/0",
-				// 	"next_hop_type":       "VirtualAppliance",
-				// 	"next_hop_ip_address": "10.10.0.4",
-				// },
-			},
-			"hub_subnets":                  hubSubnets,
-			"user_route_tables":            userRouteTables,
-			"user_network_security_groups": userNetworkSecurityGroups,
+			"company_name":                   "contoso",
+			"subscription_id":                "986c8c85-5175-4773-a272-40983cf0c60d",
+			"location":                       "southeastasia",
+			"hub_vnet_address_space":         "10.10.0.0/16",
+			"firewall_subnet_address_prefix": "10.10.0.0/24",
+			"firewall_zones":                 []string{"1"},
+			"hub_subnets":                    hubSubnets,
+			"user_route_tables":              userRouteTables,
+			"user_network_security_groups":   userNetworkSecurityGroups,
 			"dnsresolver_inbound_endpoints": map[string]interface{}{
 				"dnspr-inbound": map[string]interface{}{
 					"name":        "in-dnspr-connectivity-prd-sea-001",
