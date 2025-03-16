@@ -8,7 +8,11 @@ module "avm-ptn-network-private-link-private-dns-zones" {
   resource_group_role_assignments = var.private_dns_zones_resource_group_role_assignments
   resource_group_name             = coalesce(var.private_dns_zones_resource_group_name, local.default_resource_group_name)
 
-  virtual_network_resource_ids_to_link_to = local.hubnetworking_output_vnet_id
+  virtual_network_resource_ids_to_link_to = {
+    hub = {
+      vnet_resource_id = local.hubnetworking_output_vnet_id
+    }
+  }
 
   depends_on = [module.avm-ptn-hubnetworking]
 }
