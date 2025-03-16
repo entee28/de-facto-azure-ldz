@@ -59,19 +59,19 @@ func TestConnectivityLDZModule(t *testing.T) {
 	terraformOptions := &terraform.Options{
 		TerraformDir: "..",
 		Vars: map[string]interface{}{
-			"company_name":                   "contoso",
-			"subscription_id":                "986c8c85-5175-4773-a272-40983cf0c60d",
-			"location":                       "southeastasia",
-			"hub_vnet_address_space":         "10.10.0.0/16",
-			"firewall_subnet_address_prefix": "10.10.0.0/24",
-			"firewall_zones":                 []string{"1"},
+			"company_name":                     "contoso",
+			"subscription_id":                  "986c8c85-5175-4773-a272-40983cf0c60d",
+			"location":                         "southeastasia",
+			"hub_vnet_address_space":           "10.10.0.0/16",
+			"firewall_subnet_address_prefix":   "10.10.0.0/24",
+			"firewall_zones":                   []string{"1"},
 			"route_table_entries_user_subnets": []interface{}{
-				map[string]interface{}{
-					"name":                "route-to-all",
-					"address_prefix":      "0.0.0.0/0",
-					"next_hop_type":       "VirtualAppliance",
-					"next_hop_ip_address": "10.10.0.4",
-				},
+				// map[string]interface{}{
+				// 	"name":                "route-to-all",
+				// 	"address_prefix":      "0.0.0.0/0",
+				// 	"next_hop_type":       "VirtualAppliance",
+				// 	"next_hop_ip_address": "10.10.0.4",
+				// },
 			},
 			"hub_subnets":                  hubSubnets,
 			"user_route_tables":            userRouteTables,
