@@ -154,8 +154,8 @@ func TestConnectivityLDZModule(t *testing.T) {
 			"hub_vnet_address_space":         "10.10.0.0/16",
 			"firewall_subnet_address_prefix": "10.10.0.0/24",
 			"firewall_zones":                 []string{"1"},
-			"route_table_entries_user_subnets": map[string]interface{}{
-				"route-to-all": map[string]interface{}{
+			"route_table_entries_user_subnets": []interface{}{
+				map[string]interface{}{
 					"name":                   "route-to-all",
 					"address_prefix":         "0.0.0.0/0",
 					"next_hop_type":          "VirtualAppliance",
