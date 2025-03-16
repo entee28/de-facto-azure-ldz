@@ -6,7 +6,7 @@ module "avm-res-network-routetable" {
 
   name                = each.value.name
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = local.resource_group_name
   routes              = each.value.routes
   tags                = each.value.tags
 }

@@ -5,17 +5,17 @@ module "avm-ptn-hubnetworking" {
 
   hub_virtual_networks = {
     hub = {
-      name = coalesce(var.hub_vnet_name, local.default_hub_vnet_name)
-      address_space = [var.hub_vnet_address_space]
+      name                            = coalesce(var.hub_vnet_name, local.default_hub_vnet_name)
+      address_space                   = [var.hub_vnet_address_space]
       location                        = var.location
-      resource_group_name = coalesce(var.resource_group_name, local.default_resource_group_name)
+      resource_group_name             = local.resource_group_name
       resource_group_creation_enabled = false
       resource_group_lock_enabled     = false
 
       mesh_peering_enabled = true
       subnets              = local.hub_subnets
 
-      routing_address_space = ["10.0.0.0/16"]
+      routing_address_space            = ["10.0.0.0/16"]
       route_table_name_user_subnets    = "rt-hub-default"
       route_table_name_firewall        = "rt-firewall"
       route_table_entries_firewall     = var.route_table_entries_firewall
@@ -23,7 +23,7 @@ module "avm-ptn-hubnetworking" {
 
       firewall = {
         subnet_address_prefix = var.firewall_subnet_address_prefix
-        name                  = local.hub_vnet_name
+        name                  = local.hub_firewall_name
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
         zones                 = var.firewall_zones

@@ -8,25 +8,26 @@ locals {
   default_firewall_policy_name = "afw-policy-${var.company_name}-${local.name_suffix}-001"
   default_dns_resolver_name    = "dnspr-${var.company_name}-${local.name_suffix}-001"
 
-  hub_vnet_name = coalesce(var.firewall_name, local.default_firewall_name)
+  resource_group_name = coalesce(var.resource_group_name, local.default_resource_group_name)
+  hub_firewall_name   = coalesce(var.firewall_name, local.default_firewall_name)
 
   hubnetworking_output_vnet_id            = module.avm-ptn-hubnetworking.virtual_networks["hub"].virtual_network_resource_id
-  hubnetworking_output_firewall_policy_id = module.avm-ptn-hubnetworking.firewall_policies[local.hub_vnet_name].id
+  hubnetworking_output_firewall_policy_id = module.avm-ptn-hubnetworking.firewall_policies[local.hub_firewall_name].id
 
   hub_subnets = {
     for subnet_key, subnet_value in var.hub_subnets : subnet_key => merge(subnet_value, {
-      nsg_id = format("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/networkSecurityGroups/%s",
+      nsg_id = subnet_value.nsg_name != null ? format("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/networkSecurityGroups/%s",
         var.subscription_id,
-        var.resource_group_name,
+        local.resource_group_name,
         subnet_value.nsg_name
-      )
-      route_table = merge(subnet_value.route_table, {
+      ) : null
+      route_table = subnet_value.nsg_name != null ? merge(subnet_value.route_table, {
         id = format("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/routeTables/%s",
           var.subscription_id,
-          var.resource_group_name,
+          local.resource_group_name,
           subnet_value.route_table.name
         )
-      })
+      }) : subnet_value.route_table
     })
   }
 

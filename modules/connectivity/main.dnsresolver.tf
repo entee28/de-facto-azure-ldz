@@ -4,7 +4,7 @@ module "avm-res-network-dnsresolver" {
   enable_telemetry = false
 
   location                    = var.location
-  resource_group_name         = var.resource_group_name
+  resource_group_name         = local.resource_group_name
   virtual_network_resource_id = local.hubnetworking_output_vnet_id
   name                        = coalesce(var.dnsresolver_name, local.default_dns_resolver_name)
 

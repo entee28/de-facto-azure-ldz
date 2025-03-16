@@ -5,7 +5,7 @@ module "avm-res-network-networksecuritygroup" {
   enable_telemetry = false
 
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = local.resource_group_name
   name                = each.value.name
 
   diagnostic_settings = each.value.diagnostic_settings
