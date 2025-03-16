@@ -28,6 +28,7 @@ module "avm-ptn-hubnetworking" {
         sku_tier              = "Standard"
         zones                 = var.firewall_zones
         default_ip_configuration = {
+          name = "default"
           public_ip_config = {
             zones = ["1", "2", "3"]
           }
