@@ -71,26 +71,20 @@ variable "firewall_tags" {
 //Routing variables
 variable "route_table_entries_firewall" {
   type = list(object({
-    name                   = string
-    address_prefix         = string
-    next_hop_type          = string
-    next_hop_in_ip_address = optional(string)
+    name                = string
+    address_prefix      = string
+    next_hop_type       = string
+    next_hop_ip_address = optional(string)
   }))
-  default = [
-    {
-      name           = "route-to-internet-default"
-      address_prefix = "0.0.0.0/0"
-      next_hop_type  = "Internet"
-    }
-  ]
+  default = []
 }
 
 variable "route_table_entries_user_subnets" {
   type = list(object({
-    name                   = string
-    address_prefix         = string
-    next_hop_type          = string
-    next_hop_in_ip_address = optional(string)
+    name                = string
+    address_prefix      = string
+    next_hop_type       = string
+    next_hop_ip_address = optional(string)
   }))
   default = []
 }

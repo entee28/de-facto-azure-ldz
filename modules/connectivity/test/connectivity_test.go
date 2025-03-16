@@ -40,6 +40,7 @@ func TestConnectivityLDZModule(t *testing.T) {
 				"assign_generated_route_table": false,
 				"name":                         "rt-snet-test",
 			},
+			"nsg_name": "nsg-snet-test",
 		},
 	}
 
@@ -66,10 +67,10 @@ func TestConnectivityLDZModule(t *testing.T) {
 			"firewall_zones":                 []string{"1"},
 			"route_table_entries_user_subnets": []interface{}{
 				map[string]interface{}{
-					"name":                   "route-to-all",
-					"address_prefix":         "0.0.0.0/0",
-					"next_hop_type":          "VirtualAppliance",
-					"next_hop_in_ip_address": "10.10.0.4",
+					"name":                "route-to-all",
+					"address_prefix":      "0.0.0.0/0",
+					"next_hop_type":       "VirtualAppliance",
+					"next_hop_ip_address": "10.10.0.4",
 				},
 			},
 			"hub_subnets":                  hubSubnets,
