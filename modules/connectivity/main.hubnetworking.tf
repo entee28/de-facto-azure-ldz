@@ -30,6 +30,7 @@ module "avm-ptn-hubnetworking" {
         default_ip_configuration = {
           name = "default"
           public_ip_config = {
+            name  = "pip-${local.hub_firewall_name}"
             zones = ["1", "2", "3"]
           }
         }
