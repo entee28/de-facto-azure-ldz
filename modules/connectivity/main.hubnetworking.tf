@@ -5,7 +5,7 @@ module "avm-ptn-hubnetworking" {
 
   hub_virtual_networks = {
     hub = {
-      name                            = coalesce(var.hub_vnet_name, local.default_hub_vnet_name)
+      name                            = local.hub_vnet_name
       address_space                   = [var.hub_vnet_address_space]
       location                        = var.location
       resource_group_name             = local.resource_group_name

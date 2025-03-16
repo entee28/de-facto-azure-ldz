@@ -9,4 +9,6 @@ module "avm-res-network-routetable" {
   resource_group_name = local.resource_group_name
   routes              = each.value.routes
   tags                = each.value.tags
+
+  depends_on = [module.avm-res-resources-resourcegroup]
 }

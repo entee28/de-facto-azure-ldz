@@ -9,4 +9,6 @@ module "avm-res-network-firewallpolicy" {
   firewall_policy_rule_collection_group_application_rule_collection = each.value.application_rule_collection
   firewall_policy_rule_collection_group_network_rule_collection     = each.value.network_rule_collection
   firewall_policy_rule_collection_group_nat_rule_collection         = each.value.nat_rule_collection
+
+  depends_on = [module.avm-ptn-hubnetworking]
 }

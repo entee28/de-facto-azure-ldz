@@ -9,10 +9,11 @@ locals {
   default_dns_resolver_name    = "dnspr-${var.company_name}-${local.name_suffix}-001"
 
   resource_group_name = coalesce(var.resource_group_name, local.default_resource_group_name)
+  hub_vnet_name       = coalesce(var.hub_vnet_name, local.default_hub_vnet_name)
   hub_firewall_name   = coalesce(var.firewall_name, local.default_firewall_name)
 
   hubnetworking_output_vnet_id            = module.avm-ptn-hubnetworking.virtual_networks["hub"].virtual_network_resource_id
-  hubnetworking_output_firewall_policy_id = module.avm-ptn-hubnetworking.firewall_policies[local.hub_firewall_name].id
+  hubnetworking_output_firewall_policy_id = module.avm-ptn-hubnetworking.firewall_policies[local.hub_vnet_name].id
 
   hub_subnets = {
     for subnet_key, subnet_value in var.hub_subnets : subnet_key => merge(subnet_value, {

@@ -11,5 +11,6 @@ module "avm-res-network-dnsresolver" {
   inbound_endpoints  = var.dnsresolver_inbound_endpoints
   outbound_endpoints = var.dnsresolver_outbound_endpoints
 
-  tags = var.dnsresolver_tags
+  tags       = var.dnsresolver_tags
+  depends_on = [module.avm-ptn-hubnetworking]
 }

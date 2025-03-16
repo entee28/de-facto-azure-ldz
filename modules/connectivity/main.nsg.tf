@@ -11,4 +11,6 @@ module "avm-res-network-networksecuritygroup" {
   diagnostic_settings = each.value.diagnostic_settings
   security_rules      = each.value.security_rules
   tags                = each.value.tags
+
+  depends_on = [module.avm-res-resources-resourcegroup]
 }
