@@ -7,7 +7,7 @@ variable "vnetgateway_name" {
 variable "vnetgateway_sku" {
   description = "The SKU of the virtual network gateway."
   type        = string
-  default     = "VpnGw1"
+  default     = "VpnGw1AZ"
 }
 
 variable "vnetgateway_vpn_active_active_enabled" {
@@ -42,7 +42,7 @@ variable "vnetgateway_vpn_private_ip_address_enabled" {
 variable "vnetgateway_vpn_public_ip_zones" {
   description = "Enable private IP address for the VPN gateway."
   type        = list(string)
-  default     = null
+  default     = ["1", "2", "3"]
 }
 
 variable "vnetgateway_vpn_dns_forwarding_enabled" {
