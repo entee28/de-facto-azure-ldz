@@ -20,7 +20,8 @@ module "avm-ptn-vnetgateway" {
     default = {
       name = "default"
       public_ip = {
-        name = "pip-${local.default_vnet_gateway_name}"
+        name  = "pip-${local.default_vnet_gateway_name}"
+        zones = var.vnetgateway_vpn_public_ip_zones
       }
     }
   }
