@@ -6,7 +6,7 @@ module "avm-ptn-network-private-link-private-dns-zones" {
   location                        = var.location
   resource_group_creation_enabled = var.private_dns_zones_resource_group_name != null
   resource_group_role_assignments = var.private_dns_zones_resource_group_role_assignments
-  resource_group_name             = coalesce(var.private_dns_zones_resource_group_name, local.default_resource_group_name)
+  resource_group_name             = local.private_dns_zone_resource_group_name
 
   virtual_network_resource_ids_to_link_to = {
     hub = {
