@@ -44,7 +44,6 @@ module "privateendpoint" {
   subnet_resource_id             = each.value.subnet_id
   private_dns_zone_group_name    = each.value.private_dns_zone_group_name
   private_dns_zone_resource_ids  = each.value.private_dns_zone_resource_ids
-  ip_configurations              = local.private_endpoint_ip_configurations
   subresource_names              = ["azuremonitor"]
 
   tags = var.tags

@@ -17,10 +17,6 @@ variable "private_endpoint" {
     private_dns_zone_resource_ids = optional(set(string), [])
     network_interface_name        = optional(string, null)
     subnet_id                     = string
-    ip_configurations = optional(map(object({
-      name               = string
-      private_ip_address = string
-    })), {})
     tags = optional(map(any), null)
   }))
 }
