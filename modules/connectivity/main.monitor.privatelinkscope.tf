@@ -1,8 +1,8 @@
 resource "azurerm_subnet" "monitor_privatelinkscope_subnet" {
   count                             = var.ampls_deployment_enabled ? 1 : 0
   name                              = coalesce(var.ampls_subnet_name, "snet-ampls-prd-${var.location_code}-001")
-  resource_group_name               = var.resource_group_name
-  virtual_network_name              = var.hub_vnet_name
+  resource_group_name               = local.resource_group_name
+  virtual_network_name              = local.hub_vnet_name
   address_prefixes                  = [var.ampls_subnet_address_prefix]
   private_endpoint_network_policies = var.ampls_subnet_private_endpoint_network_policies
   depends_on                        = [module.avm-ptn-hubnetworking]
@@ -12,7 +12,7 @@ module "monitor-privatelinkscope" {
   count               = var.ampls_deployment_enabled ? 1 : 0
   source              = "./modules/monitor-privatelinkscope"
   name                = coalesce(var.ampls_name, local.default_monitor_privatelinkscope_name)
-  resource_group_name = var.resource_group_name
+  resource_group_name = local.resource_group_name
   location            = var.location
 
   ingestion_access_mode = var.ampls_ingestion_access_mode

@@ -2,8 +2,8 @@ resource "azurerm_subnet" "bastion_subnet" {
   count                = var.bastion_host_deployment_enabled ? 1 : 0
   address_prefixes     = [var.bastion_host_subnet_address_prefix]
   name                 = "AzureBastionSubnet"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = var.hub_vnet_name
+  resource_group_name  = local.resource_group_name
+  virtual_network_name = local.hub_vnet_name
   depends_on           = [module.avm-ptn-hubnetworking]
 }
 
@@ -15,7 +15,7 @@ module "avm-res-network-bastionhost" {
 
 
   name                = coalesce(var.bastion_host_name, local.default_bastion_host_name)
-  resource_group_name = var.resource_group_name
+  resource_group_name = local.resource_group_name
   location            = var.location
   sku                 = var.bastion_host_sku
   scale_units         = var.bastion_host_scale_units
