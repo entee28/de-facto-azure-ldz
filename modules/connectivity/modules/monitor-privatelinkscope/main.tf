@@ -30,19 +30,20 @@ resource "azurerm_management_lock" "this" {
 }
 
 module "privateendpoint" {
+  for_each = var.private_endpoint
   source           = "Azure/avm-res-network-privateendpoint/azurerm"
   version          = "0.2.0"
   enable_telemetry = false
 
-  name                = coalesce(var.private_endpoint.name, "pe-${var.name}")
+  name                = coalesce(each.value.name, "pe-${var.name}")
   location            = coalesce(var.location, local.resource_group_location)
   resource_group_name = var.resource_group_name
 
-  network_interface_name         = var.private_endpoint.network_interface_name
+  network_interface_name         = each.value.network_interface_name
   private_connection_resource_id = azurerm_monitor_private_link_scope.this.id
-  subnet_resource_id             = var.private_endpoint.subnet_id
-  private_dns_zone_group_name    = var.private_endpoint.private_dns_zone_group_name
-  private_dns_zone_resource_ids  = var.private_endpoint.private_dns_zone_resource_ids
+  subnet_resource_id             = each.value.subnet_id
+  private_dns_zone_group_name    = each.value.private_dns_zone_group_name
+  private_dns_zone_resource_ids  = each.value.private_dns_zone_resource_ids
   ip_configurations              = local.private_endpoint_ip_configurations
   subresource_names              = ["azuremonitor"]
 
