@@ -18,7 +18,7 @@ module "monitor-privatelinkscope" {
   ingestion_access_mode = var.ampls_ingestion_access_mode
   query_access_mode     = var.ampls_query_access_mode
   private_endpoint = {
-    private_dns_zone_resource_ids = local.ampls_private_dns_zone_ids
+    private_dns_zone_resource_ids = toset(local.ampls_private_dns_zone_ids)
     subnet_id                     = try(azurerm_subnet.monitor_privatelinkscope_subnet[0].id, null)
   }
 
