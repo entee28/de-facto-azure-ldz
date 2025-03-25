@@ -32,7 +32,7 @@ module "avm-res-network-bastionhost" {
 
   ip_configuration = {
     name             = "bastion-ipconfig"
-    subnet_id        = azurerm_subnet.bastion_subnet.id
+    subnet_id        = try(azurerm_subnet.bastion_subnet[0].id, null)
     create_public_ip = true
   }
 
