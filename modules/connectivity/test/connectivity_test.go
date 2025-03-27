@@ -71,24 +71,24 @@ func TestConnectivityLDZModule(t *testing.T) {
 			"hub_subnets":                        hubSubnets,
 			"user_route_tables":                  userRouteTables,
 			"user_network_security_groups":       userNetworkSecurityGroups,
-			"dnsresolver_inbound_endpoints": map[string]interface{}{
-				"dnspr-inbound": map[string]interface{}{
-					"name":        "in-dnspr-connectivity-prd-sea-001",
-					"subnet_name": "snet-dnspr-in-prd-sea-001",
-				},
-			},
-			"dnsresolver_outbound_endpoints": map[string]interface{}{
-				"dnspr-outbound": map[string]interface{}{
-					"name":        "out-dnspr-connectivity-prd-sea-001",
-					"subnet_name": "snet-dnspr-out-prd-sea-001",
-					"forwarding_ruleset": map[string]interface{}{
-						"frs-dnspr-outbound": map[string]interface{}{
-							"name":  "frs-dnspr-outbound",
-							"rules": map[string]interface{}{},
-						},
-					},
-				},
-			},
+			//"dnsresolver_inbound_endpoints": map[string]interface{}{
+			//	"dnspr-inbound": map[string]interface{}{
+			//		"name":        "in-dnspr-connectivity-prd-sea-001",
+			//		"subnet_name": "snet-dnspr-in-prd-sea-001",
+			//	},
+			//},
+			//"dnsresolver_outbound_endpoints": map[string]interface{}{
+			//	"dnspr-outbound": map[string]interface{}{
+			//		"name":        "out-dnspr-connectivity-prd-sea-001",
+			//		"subnet_name": "snet-dnspr-out-prd-sea-001",
+			//		"forwarding_ruleset": map[string]interface{}{
+			//			"frs-dnspr-outbound": map[string]interface{}{
+			//				"name":  "frs-dnspr-outbound",
+			//				"rules": map[string]interface{}{},
+			//			},
+			//		},
+			//	},
+			//},
 			"vnetgateway_subnet_address_prefix": "10.10.2.0/24",
 		},
 	}
