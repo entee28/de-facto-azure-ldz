@@ -1,12 +1,12 @@
 package test
 
 import (
-	"fmt"
-	"os"
+	"context"
 	"testing"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/gruntwork-io/terratest/modules/azure"
-	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
@@ -14,22 +14,18 @@ import (
 func TestConnectivityVwan(t *testing.T) {
 	t.Parallel()
 
-	subscriptionID := os.Getenv("ARM_SUBSCRIPTION_ID")
-	if subscriptionID == "" {
-		t.Fatal("ARM_SUBSCRIPTION_ID environment variable is not set")
-	}
+	// subscriptionID := os.Getenv("ARM_SUBSCRIPTION_ID")
+	// if subscriptionID == "" {
+	// 	t.Fatal("ARM_SUBSCRIPTION_ID environment variable is not set")
+	// }
+	subscriptionID := "986c8c85-5175-4773-a272-40983cf0c60d"
 
-	// Generate a random name
-	uniqueId := random.UniqueId()
-	companyName := fmt.Sprintf("tf-test-%s", uniqueId)
-
-	// Construct the terraform options with default retryable errors
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../",
 		Vars: map[string]interface{}{
-			"company_name":        companyName,
-			"location":            "eastus",
-			"resource_group_name": fmt.Sprintf("rg-%s-connectivity-eus-prd", companyName),
+			"subscription_id": subscriptionID,
+			"company_name":    "contoso",
+			"location":        "southeastasia",
 			"resource_group_tags": map[string]interface{}{
 				"environment": "test",
 				"managed_by":  "terratest",
@@ -38,7 +34,7 @@ func TestConnectivityVwan(t *testing.T) {
 				"address_prefix": "10.0.0.0/23",
 			},
 			"firewall": map[string]interface{}{
-				"sku_tier": "Standard",
+				"sku_tier": "Premium",
 			},
 			"express_route_gateway": map[string]interface{}{
 				"scale_units": 1,
@@ -53,36 +49,95 @@ func TestConnectivityVwan(t *testing.T) {
 		},
 	})
 
-	// At the end of the test, clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
 
-	// Deploy the resources
 	terraform.InitAndApply(t, terraformOptions)
 
-	// Get the resource group name from output
-	resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
+	// Get outputs
+	rgName := terraform.Output(t, terraformOptions, "resource_group_name")
+	vwanName := terraform.Output(t, terraformOptions, "virtual_wan_name")
+	vhubName := terraform.Output(t, terraformOptions, "virtual_hub_name")
+	fwName := terraform.Output(t, terraformOptions, "firewall_name")
+	vpnGwName := terraform.Output(t, terraformOptions, "vpn_gateway_name")
+	erGwName := terraform.Output(t, terraformOptions, "express_route_gateway_name")
+
+	// Create Azure clients
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := context.Background()
 
 	// Verify Resource Group exists
-	exists := azure.ResourceGroupExists(t, resourceGroupName, subscriptionID)
-	assert.True(t, exists, "Resource group does not exist")
+	exists := azure.ResourceGroupExists(t, rgName, subscriptionID)
+	assert.True(t, exists)
 
-	// Verify Virtual WAN exists
-	vwanName := terraform.Output(t, terraformOptions, "virtual_wan_name")
-	assert.NotEmpty(t, vwanName, "Virtual WAN name is empty")
+	// Check VWAN
+	vwanClient, err := armnetwork.NewVirtualWansClient(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	// Verify Virtual Hub exists
-	vhubName := terraform.Output(t, terraformOptions, "virtual_hub_name")
-	assert.NotEmpty(t, vhubName, "Virtual Hub name is empty")
+	vwan, err := vwanClient.Get(ctx, rgName, vwanName, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.NotNil(t, vwan.Properties)
 
-	// Verify Firewall exists
-	firewallName := terraform.Output(t, terraformOptions, "firewall_name")
-	assert.NotEmpty(t, firewallName, "Firewall name is empty")
+	// Check Virtual Hub
+	vhubClient, err := armnetwork.NewVirtualHubsClient(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	// Verify VPN Gateway exists
-	vpnGatewayName := terraform.Output(t, terraformOptions, "vpn_gateway_name")
-	assert.NotEmpty(t, vpnGatewayName, "VPN Gateway name is empty")
+	vhub, err := vhubClient.Get(ctx, rgName, vhubName, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.NotNil(t, vhub.Properties)
+	assert.Equal(t, "10.0.0.0/23", *vhub.Properties.AddressPrefix)
 
-	// Verify ExpressRoute Gateway exists
-	erGatewayName := terraform.Output(t, terraformOptions, "express_route_gateway_name")
-	assert.NotEmpty(t, erGatewayName, "ExpressRoute Gateway name is empty")
+	// Check Azure Firewall
+	fwClient, err := armnetwork.NewAzureFirewallsClient(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fw, err := fwClient.Get(ctx, rgName, fwName, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.NotNil(t, fw.Properties)
+	assert.Equal(t, armnetwork.AzureFirewallSKUTierStandard, fw.Properties.SKU.Tier)
+
+	// Check VPN Gateway
+	vpnClient, err := armnetwork.NewVPNGatewaysClient(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vpnGw, err := vpnClient.Get(ctx, rgName, vpnGwName, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.NotNil(t, vpnGw.Properties)
+	if vpnGw.Properties.VPNGatewayScaleUnit != nil {
+		assert.Equal(t, int32(1), *vpnGw.Properties.VPNGatewayScaleUnit)
+	}
+
+	// Check ExpressRoute Gateway
+	erClient, err := armnetwork.NewExpressRouteGatewaysClient(subscriptionID, cred, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	erGw, err := erClient.Get(ctx, rgName, erGwName, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.NotNil(t, erGw.Properties)
+	if erGw.Properties.AutoScaleConfiguration != nil && erGw.Properties.AutoScaleConfiguration.Bounds != nil {
+		assert.Equal(t, int32(1), *erGw.Properties.AutoScaleConfiguration.Bounds.Min)
+	}
 }
