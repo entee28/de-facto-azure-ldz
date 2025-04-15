@@ -2,16 +2,16 @@ name: Connectivity CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "modules/connectivity/**"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "modules/connectivity/**"
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "modules/connectivity/**"
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "modules/connectivity/**"
 
 permissions:
   id-token: write
