@@ -13,7 +13,8 @@ module "vwan_with_vhub" {
 
   virtual_hubs = {
     vhub = merge(var.virtual_hub, {
-      name = local.virtual_hub_name
+      name     = local.virtual_hub_name
+      location = var.location
     })
   }
 
