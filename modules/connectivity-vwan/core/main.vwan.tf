@@ -5,6 +5,7 @@ module "vwan_with_vhub" {
 
   location                       = var.location
   resource_group_name            = local.resource_group_name
+  create_resource_group          = false
   virtual_wan_name               = local.virtual_wan_name
   virtual_wan_tags               = var.virtual_wan_tags
   disable_vpn_encryption         = false
@@ -13,9 +14,9 @@ module "vwan_with_vhub" {
 
   virtual_hubs = {
     vhub = merge(var.virtual_hub, {
-      name                = local.virtual_hub_name
-      resource_group_name = local.resource_group_name
-      location            = var.location
+      name           = local.virtual_hub_name
+      resource_group = local.resource_group_name
+      location       = var.location
     })
   }
 
