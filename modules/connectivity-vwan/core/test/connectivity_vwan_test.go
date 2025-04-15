@@ -18,7 +18,7 @@ func TestConnectivityVwan(t *testing.T) {
 	// if subscriptionID == "" {
 	// 	t.Fatal("ARM_SUBSCRIPTION_ID environment variable is not set")
 	// }
-	subscriptionID := "986c8c85-5175-4773-a272-40983cf0c60d"
+	subscriptionID := "e799f190-b710-4b4f-807a-2a2ad232d4b4"
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../",
