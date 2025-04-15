@@ -21,7 +21,7 @@ jobs:
   terratest-workflow:
     uses: ./.github/workflows/module-terratest.yaml
     with:
-      working_dir: ./modules/connectivity/test
+      working_dir: ./modules/connectivity-vwan/core/test
     secrets:
       client-id: ${{secrets.CLIENT_ID}}
       subscription-id: ${{secrets.SUBSCRIPTION_ID}}

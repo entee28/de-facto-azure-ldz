@@ -34,7 +34,7 @@ variable "er_circuits" {
           routing_registry_name      = optional(string, "NONE")
           advertised_communities     = optional(list(string), null)
         }), null)
-      }), {})
+      }))
     })))
     express_route_circuit_authorizations = optional(map(object({
       name = string
