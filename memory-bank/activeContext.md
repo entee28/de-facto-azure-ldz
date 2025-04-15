@@ -2,24 +2,29 @@
 
 ## Current Focus
 
-The project is currently focused on the connectivity module implementation, with emphasis on:
+The project is developing two parallel connectivity approaches:
 
-1. **VNet Gateway Configuration**
+1. **Traditional Hub-Spoke (connectivity module)**
 
-   - Implementing flexible gateway options
-   - Supporting both VPN and ExpressRoute
-   - Enabling active-active configurations
-
-2. **Network Architecture**
+   - VNet Gateway Configuration
+     - Implementing flexible gateway options
+     - Supporting both VPN and ExpressRoute
+     - Enabling active-active configurations
    - Hub-spoke networking pattern
    - DNS resolution services
    - Network security controls
 
+2. **Virtual WAN (connectivity-vwan module)**
+   - VWAN Hub implementation
+   - ExpressRoute circuit integration
+   - Resource group management
+   - Regional deployment patterns
+
 ## Recent Implementations
 
-### Connectivity Module
+### Module Implementations
 
-1. **VNet Gateway**
+1. **Hub-Spoke Connectivity**
 
    ```hcl
    module "avm-ptn-vnetgateway" {
@@ -29,7 +34,18 @@ The project is currently focused on the connectivity module implementation, with
    }
    ```
 
-2. **Networking Components**
+2. **VWAN Connectivity**
+
+   ```hcl
+   resource "azurerm_virtual_wan" {
+     name                = local.vwan_name
+     resource_group_name = local.resource_group_name
+     location            = local.location
+     # Configured for global connectivity
+   }
+   ```
+
+3. **Shared Components**
    - Route tables with custom routes
    - Network security groups
    - DNS resolver endpoints
@@ -42,11 +58,13 @@ The project is currently focused on the connectivity module implementation, with
 
 ## Active Decisions
 
-### 1. Architecture Choices
+### 1. Network Architecture Choices
 
-- Using Azure Verified Modules as foundation
+- Supporting both Hub-Spoke and VWAN patterns
+- Using Azure Verified Modules as foundation where available
 - Separating variable definitions by resource
 - Implementing clear module dependencies
+- Regional deployment strategies
 
 ### 2. Implementation Standards
 
@@ -71,15 +89,23 @@ graph TD
 - Separate files per resource type
 - Clear variable scoping
 - Local variable consolidation
+- Regional code mapping
 
 ### 2. Module Structure
 
 ```
-connectivity/
-├── main.*.tf         # Resource configurations
-├── variables.*.tf    # Input definitions
-├── locals.tf         # Computed values
-└── test/            # Test implementations
+.
+├── connectivity/              # Traditional hub-spoke
+│   ├── main.*.tf
+│   ├── variables.*.tf
+│   ├── locals.tf
+│   └── test/
+└── connectivity-vwan/        # VWAN implementation
+    └── core/
+        ├── main.*.tf
+        ├── variables.*.tf
+        ├── locals.tf
+        └── test/
 ```
 
 ### 3. Testing Approach
@@ -111,17 +137,20 @@ connectivity/
 
 1. **Short Term**
 
-   - Complete VNet Gateway implementation
+   - Complete VWAN hub implementation
+   - Integrate ExpressRoute circuits
    - Add DNS resolver configuration
-   - Expand test coverage
+   - Expand test coverage for both connectivity patterns
 
 2. **Medium Term**
 
    - Implement management module
    - Add identity components
    - Enhance documentation
+   - Cross-connectivity patterns between VWAN and hub-spoke
 
 3. **Long Term**
    - Complete all core modules
    - Add advanced features
    - Create deployment examples
+   - Global connectivity patterns

@@ -46,11 +46,17 @@
 ```
 .
 ├── modules/
-│   ├── connectivity/
-│   │   ├── main.*.tf         # Resource definitions
-│   │   ├── variables.*.tf    # Input variables
-│   │   ├── locals.tf         # Local variables
-│   │   └── test/            # Module tests
+│   ├── connectivity/              # Traditional hub-spoke
+│   │   ├── main.*.tf             # Resource definitions
+│   │   ├── variables.*.tf        # Input variables
+│   │   ├── locals.tf             # Local variables
+│   │   └── test/                # Module tests
+│   ├── connectivity-vwan/        # Virtual WAN implementation
+│   │   └── core/
+│   │       ├── main.*.tf        # VWAN resources
+│   │       ├── variables.*.tf   # VWAN variables
+│   │       ├── locals.tf        # Local computations
+│   │       └── test/           # VWAN tests
 │   ├── management/
 │   ├── identity/
 │   └── resource-organization/
@@ -73,12 +79,22 @@
 
 ### 2. Core Modules
 
+#### Hub-Spoke Components
+
 - VNet Gateway
 - DNS Resolver
 - Hub Networking
 - Network Security Groups
 - Route Tables
 - Private DNS Zones
+
+#### VWAN Components
+
+- Virtual WAN
+- VWAN Hub
+- ExpressRoute Circuit
+- VPN Gateway
+- Security Policies
 
 ### 3. Testing Dependencies
 
@@ -93,17 +109,35 @@
 
 ### 1. Module Development
 
+#### Traditional Modules
+
 1. Define variables and locals
 2. Implement resource configurations
 3. Add test cases
 4. Validate with Terratest
 
+#### VWAN Modules
+
+1. Define regional configuration
+2. Implement VWAN resources
+3. Configure connectivity
+4. Test global patterns
+
 ### 2. Testing Approach
+
+#### Common Testing
 
 1. Unit tests per module
 2. Integration tests for dependencies
 3. Parallel test execution
 4. Resource cleanup after tests
+
+#### VWAN-Specific Testing
+
+1. Regional deployment validation
+2. Cross-region connectivity
+3. ExpressRoute integration
+4. Global routing patterns
 
 ### 3. Version Control
 
@@ -116,7 +150,21 @@
 ### 1. Terraform
 
 - Required version: Specified in terraform.tf
-- Provider configurations
+- Multiple provider configurations
+
+  ```hcl
+  provider "azurerm" {
+    features {}
+    # Hub-spoke configuration
+  }
+
+  provider "azurerm" {
+    alias = "vwan"
+    features {}
+    # VWAN-specific configuration
+  }
+  ```
+
 - Backend setup requirements
 
 ### 2. Azure

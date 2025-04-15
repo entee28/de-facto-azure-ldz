@@ -6,16 +6,24 @@
 graph TD
     subgraph Modules
         M[Management]
-        C[Connectivity]
+        subgraph Connectivity
+          C1[Hub-Spoke]
+          C2[VWAN]
+        end
         I[Identity]
         R[Resource Organization]
     end
 
     subgraph Foundation
         AVM[Azure Verified Modules]
+        Native[Native Azure Resources]
     end
 
-    Modules --> AVM
+    C1 --> AVM
+    C2 --> Native
+    M --> AVM
+    I --> AVM
+    R --> AVM
     Client[Customer Environment] --> Modules
 ```
 
@@ -30,9 +38,11 @@ graph TD
 
 ### 2. Network Design
 
-Based on the connectivity module implementation:
+The project supports two primary network architectures:
 
-- **Hub-Spoke Architecture**
+#### Hub-Spoke Architecture
+
+- **Traditional Hub Design**
 
   - Centralized hub VNet
   - DNS resolution services
@@ -44,15 +54,35 @@ Based on the connectivity module implementation:
   - Route tables for traffic control
   - Private DNS zones for internal resolution
 
+#### Virtual WAN Architecture
+
+- **Global Network Design**
+
+  - Regional VWAN hubs
+  - ExpressRoute integration
+  - Global transit connectivity
+  - Built-in security services
+
+- **Deployment Patterns**
+  - Regional resource groups
+  - Hub-specific configurations
+  - Cross-region connectivity
+
 ### 3. Resource Management
 
 ```mermaid
 graph LR
-    subgraph Hub Resources
+    subgraph Traditional Hub
         VNG[VNet Gateway]
         DNS[DNS Resolver]
         RT[Route Tables]
         NSG[Network Security Groups]
+    end
+
+    subgraph VWAN Hub
+        VWAN[Virtual WAN]
+        ER[ExpressRoute]
+        VPN[VPN Gateway]
     end
 
     subgraph Shared Services
@@ -65,6 +95,11 @@ graph LR
     RT --> MON
     NSG --> BAS
     NSG --> MON
+
+    VWAN --> ER
+    VWAN --> VPN
+    ER --> MON
+    VPN --> MON
 ```
 
 ## Implementation Paths
@@ -93,11 +128,19 @@ Based on connectivity_test.go:
 
 ```mermaid
 graph TD
-    HUB[Hub Networking] --> GW[VNet Gateway]
-    HUB --> DNS[DNS Resolver]
-    HUB --> RT[Route Tables]
-    GW --> RT
-    DNS --> RT
+    subgraph Hub-Spoke
+        HUB[Hub Networking] --> GW[VNet Gateway]
+        HUB --> DNS[DNS Resolver]
+        HUB --> RT[Route Tables]
+        GW --> RT
+        DNS --> RT
+    end
+
+    subgraph VWAN
+        VHUB[VWAN Hub] --> ERC[ExpressRoute Circuit]
+        VHUB --> VPNG[VPN Gateway]
+        VHUB --> SECP[Security Policies]
+    end
 ```
 
 ### Resource Flow
@@ -124,12 +167,14 @@ graph TD
 1. **Modular Composition**
 
    - Independent module deployment
+   - Network pattern isolation (Hub-Spoke vs VWAN)
    - Minimal cross-module dependencies
    - Clear interface boundaries
 
 2. **Configuration Management**
 
    - Variable-driven customization
+   - Regional configuration patterns
    - Default value patterns
    - Override capabilities
 
@@ -137,3 +182,4 @@ graph TD
    - Network segmentation
    - Access control patterns
    - Monitoring integration
+   - Global security policies

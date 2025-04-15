@@ -4,13 +4,20 @@
 
 ### 1. Completed Components
 
-#### Connectivity Module Foundation
+#### Traditional Connectivity Module
 
 - [x] Basic module structure
 - [x] VNet Gateway implementation
 - [x] Testing framework setup
 - [x] Variable organization
 - [x] Local value definitions
+
+#### VWAN Implementation
+
+- [x] Core module structure
+- [x] Resource group setup
+- [x] Basic VWAN configuration
+- [x] Regional deployment support
 
 #### Infrastructure Testing
 
@@ -20,12 +27,19 @@
 
 ### 2. In Progress
 
-#### Connectivity Module
+#### Traditional Connectivity
 
 - [ ] DNS Resolver endpoints
 - [ ] Route table associations
 - [ ] Network security rules
 - [ ] Private DNS zones
+
+#### VWAN Connectivity
+
+- [ ] ExpressRoute circuit integration
+- [ ] Hub networking configuration
+- [ ] Global connectivity patterns
+- [ ] Security policy implementation
 
 #### Documentation
 
@@ -35,25 +49,33 @@
 
 ### 3. Planned Work
 
-#### New Modules
+#### Core Modules
 
 - [ ] Management module
 - [ ] Identity module
 - [ ] Resource organization module
 
+#### Network Features
+
+- [ ] Cross-connectivity between VWAN and hub-spoke
+- [ ] Global routing patterns
+- [ ] Advanced security configurations
+- [ ] Multi-region deployment templates
+
 #### Advanced Features
 
-- [ ] Multi-region support
+- [ ] Automated deployment pipelines
+- [ ] Cross-subscription support
 - [ ] Custom route configurations
-- [ ] Advanced security patterns
+- [ ] Enhanced monitoring integration
 
 ## Evolution of Decisions
 
 ### 1. Module Structure
 
 - **Initial**: Single file per module
-- **Current**: Separated by resource type
-- **Planned**: Enhanced modularity with submodules
+- **Current**: Separated by resource type and network pattern
+- **Planned**: Enhanced modularity with submodules and shared components
 
 ### 2. Testing Approach
 
@@ -89,7 +111,9 @@
 
 ## Implementation Notes
 
-### 1. VNet Gateway Configuration
+### 1. Network Patterns
+
+#### Hub-Spoke Implementation
 
 ```hcl
 # Current implementation pattern
@@ -103,6 +127,22 @@ module "avm-ptn-vnetgateway" {
 # - Multiple gateway support
 # - Advanced routing options
 # - Enhanced security features
+```
+
+#### VWAN Implementation
+
+```hcl
+# Current implementation
+resource "azurerm_virtual_wan" {
+  name                = local.vwan_name
+  resource_group_name = local.resource_group_name
+  location            = local.location
+}
+
+# Planned enhancements:
+# - ExpressRoute integration
+# - Global routing
+# - Security services
 ```
 
 ### 2. Testing Evolution
@@ -124,15 +164,17 @@ func TestConnectivityLDZModule(t *testing.T) {
 
 ### 1. Immediate Focus
 
-1. Complete DNS resolver implementation
-2. Enhance route table configurations
-3. Expand test coverage
+1. Complete VWAN ExpressRoute integration
+2. Implement hub networking configurations
+3. Enhanced routing patterns
+4. Security policy implementation
 
 ### 2. Short-term Goals
 
-1. Finalize connectivity module
-2. Begin management module
-3. Enhance documentation
+1. Finalize both connectivity patterns
+2. Cross-connectivity implementation
+3. Begin management module
+4. Enhance documentation
 
 ### 3. Long-term Vision
 
@@ -159,3 +201,4 @@ func TestConnectivityLDZModule(t *testing.T) {
 - Clear documentation is critical
 - Regular progress tracking helps
 - Flexible design enables adaptation
+- Multi-pattern support increases complexity
