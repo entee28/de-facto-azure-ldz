@@ -5,7 +5,7 @@ module "vwan_with_vhub" {
 
   location                       = var.location
   resource_group_name            = local.resource_group_name
-  virtual_wan_name               = var.virtual_wan_name
+  virtual_wan_name               = local.virtual_wan_name
   virtual_wan_tags               = var.virtual_wan_tags
   disable_vpn_encryption         = false
   allow_branch_to_branch_traffic = true
