@@ -1,7 +1,6 @@
 package test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -63,11 +62,7 @@ func TestConnectivityVwan(t *testing.T) {
 		},
 	})
 
-	// Check if SKIP_DESTROY environment variable is set
-	skipDestroy := os.Getenv("SKIP_DESTROY")
-	if skipDestroy != "true" {
-		defer terraform.Destroy(t, terraformOptions)
-	}
+	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.InitAndApply(t, terraformOptions)
 }
