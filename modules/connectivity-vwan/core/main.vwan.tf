@@ -33,7 +33,7 @@ module "connectivity-virtual-wan" {
         vpn = try(var.vpn_gateway, null) != null ? merge(var.vpn_gateway, {
           name = local.vpn_gateway_name
         }) : null
-        express_route = enable_telemetry(var.express_route_gateway, null) != null ? merge(var.express_route_gateway, {
+        express_route = try(var.express_route_gateway, null) != null ? merge(var.express_route_gateway, {
           name = local.express_route_gateway_name
         }) : null
       }
