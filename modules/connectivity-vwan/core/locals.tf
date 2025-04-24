@@ -1,8 +1,8 @@
 locals {
   location_code               = local.get_region_code[var.location]
   environment                 = "prd"
-  connectivity_name_suffix    = format("connectivity-%s-%s", local.location_code, local.environment)
-  shared_services_name_suffix = format("shared-%s-%s", local.location_code, local.environment)
+  connectivity_name_suffix    = format("connectivity-%s-%s", local.environment, local.location_code)
+  shared_services_name_suffix = format("shared-%s-%s", local.environment, local.location_code)
 
   default_resource_group_name  = format("rg-%s-platform-%s-001", var.company_name, local.connectivity_name_suffix)
   default_virtual_wan_name     = format("vwan-platform-%s-001", local.connectivity_name_suffix)
@@ -14,7 +14,7 @@ locals {
 
 
   default_shared_services_rg       = format("rg-%s-platform-%s-001", var.company_name, local.shared_services_name_suffix)
-  default_dns_resolver_subnet_name = format("snet-dnspr-%s-%s-001", local.location_code, local.environment)
+  default_dns_resolver_subnet_name = format("snet-dnspr-%s-%s-001", local.environment, local.location_code)
   default_dns_resolver_name        = format("dnspr-%s-001", local.shared_services_name_suffix)
   default_shared_vnet_name         = format("vnet-platform-%s-001", local.shared_services_name_suffix)
 
