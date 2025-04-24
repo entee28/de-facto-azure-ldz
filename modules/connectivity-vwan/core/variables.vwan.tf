@@ -42,7 +42,10 @@ variable "firewall_policy" {
     base_policy_id                    = optional(string)
     threat_intelligence_mode          = optional(string, "Alert")
     private_ip_ranges                 = optional(list(string))
-    threat_intelligence_allowlist     = optional(list(string))
+    threat_intelligence_allowlist = optional(object({
+      fqdns        = optional(set(string))
+      ip_addresses = optional(set(string))
+    }))
   })
   description = "Configuration for the Firewall Policy."
   default     = null
