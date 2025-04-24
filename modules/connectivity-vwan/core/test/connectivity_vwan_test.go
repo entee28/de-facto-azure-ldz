@@ -55,7 +55,7 @@ func TestConnectivityVwan(t *testing.T) {
 				"subnets": map[string]interface{}{
 					"dummy": map[string]interface{}{
 						"name":           "snet-dummy",
-						"address_prefix": "10.166.0.0/27",
+						"address_prefix": "10.166.1.0/27",
 					},
 				},
 			},
