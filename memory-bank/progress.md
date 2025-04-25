@@ -18,17 +18,12 @@
 - [x] Resource group setup
 - [x] Basic VWAN configuration
 - [x] Regional deployment support
-- [x] Migration to Azure Verified Module pattern (avm-ptn-alz-connectivity-virtual-wan)
-- [x] Enhanced unit test framework with SKIP_DESTROY support
-- [x] Virtual Hub configuration
-- [x] Basic firewall setup
 
 #### Infrastructure Testing
 
 - [x] Terratest implementation
 - [x] Basic test scenarios
 - [x] Subnet configuration tests
-- [x] Optional resource cleanup support
 
 ### 2. In Progress
 
@@ -42,20 +37,9 @@
 #### VWAN Connectivity
 
 - [ ] ExpressRoute circuit integration
-- [ ] Advanced firewall policy configuration
-  - Policy rules
-  - Application rules
-  - Network rules
-- [ ] Private DNS zones setup
-  - Private Link zones
-  - DNS resolver configuration
-  - Zone linking
-- [ ] Sidecar VNet enhancement
-  - Subnet configurations
-  - Network security groups
-  - Service endpoints
-- [ ] Security policy implementation
+- [ ] Hub networking configuration
 - [ ] Global connectivity patterns
+- [ ] Security policy implementation
 
 #### Documentation
 
@@ -90,19 +74,19 @@
 ### 1. Module Structure
 
 - **Initial**: Single file per module
-- **Current**: Separated by resource type and network pattern, leveraging AVMs
+- **Current**: Separated by resource type and network pattern
 - **Planned**: Enhanced modularity with submodules and shared components
 
 ### 2. Testing Approach
 
 - **Initial**: Basic resource creation tests
-- **Current**: Comprehensive module testing with optional cleanup
+- **Current**: Comprehensive module testing
 - **Planned**: End-to-end environment validation
 
 ### 3. Configuration Management
 
 - **Initial**: Basic variable definitions
-- **Current**: Structured variable files per resource with enhanced typing
+- **Current**: Structured variable files per resource
 - **Planned**: Enhanced variable validation
 
 ## Known Issues
@@ -149,49 +133,25 @@ module "avm-ptn-vnetgateway" {
 
 ```hcl
 # Current implementation
-module "connectivity-virtual-wan" {
-  source  = "Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm"
-  version = "0.2.0"
-
-  virtual_hubs = {
-    vhub = {
-      hub = {
-        name           = local.virtual_hub_name
-        address_prefix = "10.0.0.0/23"
-      }
-      firewall = {
-        name     = local.firewall_name
-        sku_tier = "Premium"
-      }
-      private_dns_zones = {
-        subnet_address_prefix = "10.0.1.0/24"
-      }
-    }
-  }
+resource "azurerm_virtual_wan" {
+  name                = local.vwan_name
+  resource_group_name = local.resource_group_name
+  location            = local.location
 }
 
 # Planned enhancements:
-# - Advanced firewall policies
-# - DNS zones integration
-# - Sidecar VNet configuration
+# - ExpressRoute integration
 # - Global routing
+# - Security services
 ```
 
 ### 2. Testing Evolution
 
 ```go
 // Current test pattern
-func TestConnectivityVwan(t *testing.T) {
+func TestConnectivityLDZModule(t *testing.T) {
   t.Parallel()
-
-  // Environment control
-  skipDestroy := os.Getenv("SKIP_DESTROY")
-  if skipDestroy != "true" {
-    defer terraform.Destroy(t, terraformOptions)
-  }
-
-  // Core validation
-  terraform.InitAndApply(t, terraformOptions)
+  // Basic validation
 }
 
 // Planned additions:
@@ -204,10 +164,10 @@ func TestConnectivityVwan(t *testing.T) {
 
 ### 1. Immediate Focus
 
-1. Complete firewall policy implementation
-2. Implement private DNS zones integration
-3. Configure sidecar VNet components
-4. Enhance security configurations
+1. Complete VWAN ExpressRoute integration
+2. Implement hub networking configurations
+3. Enhanced routing patterns
+4. Security policy implementation
 
 ### 2. Short-term Goals
 
@@ -229,14 +189,12 @@ func TestConnectivityVwan(t *testing.T) {
 - Modular design improves maintainability
 - Clear separation of concerns is crucial
 - Documentation drives development
-- AVM patterns provide solid foundation
 
 ### 2. Testing Strategy
 
 - Early test implementation is valuable
 - Comprehensive test coverage essential
 - Automated testing saves time
-- Flexible cleanup options important
 
 ### 3. Project Management
 
@@ -244,4 +202,3 @@ func TestConnectivityVwan(t *testing.T) {
 - Regular progress tracking helps
 - Flexible design enables adaptation
 - Multi-pattern support increases complexity
-- AVM migration requires careful planning

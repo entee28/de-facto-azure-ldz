@@ -26,80 +26,12 @@ variable "firewall" {
     sku_tier             = string
     name                 = optional(string)
     zones                = optional(list(number), [1, 2, 3])
+    firewall_policy_id   = optional(string)
     vhub_public_ip_count = optional(string)
     tags                 = optional(map(string))
   })
   description = "Configuration for the Firewall."
   default     = null
-}
-
-variable "firewall_policy" {
-  type = object({
-    name                              = optional(string)
-    sku                               = optional(string, "Standard")
-    tags                              = optional(map(string))
-    auto_learn_private_ranges_enabled = optional(bool)
-    base_policy_id                    = optional(string)
-    threat_intelligence_mode          = optional(string, "Alert")
-    private_ip_ranges                 = optional(list(string))
-    threat_intelligence_allowlist = optional(object({
-      fqdns        = optional(set(string))
-      ip_addresses = optional(set(string))
-    }))
-  })
-  description = "Configuration for the Firewall Policy."
-  default     = null
-}
-
-variable "private_dns_zones" {
-  type = object({
-    private_link_private_dns_zones = optional(map(object({
-      zone_name = optional(string, null)
-    })))
-    subnet_address_prefix = string
-    subnet_name           = optional(string)
-    private_dns_resolver = optional(object({
-      name       = optional(string)
-      ip_address = optional(string)
-    }), {})
-  })
-  description = "Configuration for Private DNS Zones. Contains private_link_private_dns_zones, subnet_address_prefix, subnet_name, and optional private_dns_resolver."
-  default     = null
-}
-
-variable "side_car_virtual_network" {
-  type = object({
-    name          = optional(string)
-    address_space = list(string)
-    tags          = optional(map(string))
-    subnets = map(object({
-      address_prefix = string
-      name           = string
-      nat_gateway = optional(object({
-        id = string
-      }))
-      network_security_group = optional(object({
-        id = string
-      }))
-      private_endpoint_network_policies             = optional(string, "Enabled")
-      private_link_service_network_policies_enabled = optional(bool, true)
-      route_table = optional(object({
-        id = string
-      }))
-      service_endpoint_policies = optional(map(object({
-        id = string
-      })))
-      service_endpoints               = optional(set(string))
-      default_outbound_access_enabled = optional(bool, false)
-      sharing_scope                   = optional(string, null)
-      delegation = optional(list(object({
-        name = string
-        service_delegation = object({
-          name = string
-        })
-      })))
-    }))
-  })
 }
 
 variable "express_route_gateway" {

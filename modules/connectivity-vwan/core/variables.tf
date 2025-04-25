@@ -15,13 +15,7 @@ variable "location" {
 
 variable "resource_group_name" {
   type        = string
-  description = "(Optional) The resource group where the hub resources will be deployed."
-  default     = null
-}
-
-variable "shared_services_resource_group_name" {
-  type        = string
-  description = "(Optional) The resource group for shared services."
+  description = "(Required) The resource group where the resources will be deployed."
   default     = null
 }
 
