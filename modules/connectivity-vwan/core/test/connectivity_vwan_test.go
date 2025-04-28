@@ -1,12 +1,48 @@
 package test
 
 import (
+	"context"
 	"fmt"
+	"path/filepath"
+	"strings"
 	"testing"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v4"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
+
+// Azure SDK helper functions
+func getAzureClients(t *testing.T, subscriptionID string) (*armnetwork.VirtualHubsClient, *armnetwork.VirtualWansClient, *armnetwork.ExpressRouteGatewaysClient, *armnetwork.AzureFirewallsClient) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	require.NoError(t, err, "Failed to create Azure credential")
+
+	vhubClient, err := armnetwork.NewVirtualHubsClient(subscriptionID, cred, nil)
+	require.NoError(t, err, "Failed to create Virtual Hubs client")
+
+	vwanClient, err := armnetwork.NewVirtualWansClient(subscriptionID, cred, nil)
+	require.NoError(t, err, "Failed to create Virtual WAN client")
+
+	erGatewayClient, err := armnetwork.NewExpressRouteGatewaysClient(subscriptionID, cred, nil)
+	require.NoError(t, err, "Failed to create Express Route Gateway client")
+
+	fwClient, err := armnetwork.NewAzureFirewallsClient(subscriptionID, cred, nil)
+	require.NoError(t, err, "Failed to create Azure Firewall client")
+
+	return vhubClient, vwanClient, erGatewayClient, fwClient
+}
+
+func getResourceGroupFromID(id string) string {
+	parts := strings.Split(id, "/")
+	for i := 0; i < len(parts)-1; i++ {
+		if parts[i] == "resourceGroups" || parts[i] == "resourcegroups" {
+			return parts[i+1]
+		}
+	}
+	return ""
+}
 
 // Helper functions for safe type assertions and validations
 func getMapFromOutput(t *testing.T, output interface{}, key string) map[string]interface{} {
@@ -253,19 +289,38 @@ func TestConnectivityVwan(t *testing.T) {
 		}
 	})
 
-	// Test Express Route Gateway configuration
-	t.Run("er_gateway_config", func(t *testing.T) {
+	// Test Azure resources using SDK
+	t.Run("sdk_validation", func(t *testing.T) {
+		vhubClient, vwanClient, erGatewayClient, fwClient := getAzureClients(t, subscriptionID)
+		ctx := context.Background()
+
 		vwan := getMapFromOutput(t, outputs["virtual_wan"], "virtual_wan")
+		vwanID := getStringFromMap(t, vwan, "id")
+		rgName := getResourceGroupFromID(vwanID)
 
-		// Check gateway name and ID
-		gatewayName := getStringFromMap(t, vwan, "vpn_gateway_name")
-		gatewayId := getStringFromMap(t, vwan, "vpn_gateway_id")
+		// Validate Virtual WAN
+		vwanResp, err := vwanClient.Get(ctx, rgName, filepath.Base(vwanID), &armnetwork.VirtualWansClientGetOptions{})
+		require.NoError(t, err, "Failed to get Virtual WAN")
+		assert.NotNil(t, vwanResp.Properties, "Virtual WAN properties should not be nil")
+		assert.Equal(t, "Standard", string(*vwanResp.Properties.Type), "Virtual WAN should be Standard type")
 
-		assert.Equal(t, expectedErGatewayName, gatewayName, "Express Route Gateway name should match expected default name")
-		assertValidAzureResourceID(t, gatewayId, "Express Route Gateway")
+		// Validate Virtual Hub
+		hubID := getStringFromMap(t, vwan, "virtual_hub_id")
+		hubResp, err := vhubClient.Get(ctx, rgName, filepath.Base(hubID), &armnetwork.VirtualHubsClientGetOptions{})
+		require.NoError(t, err, "Failed to get Virtual Hub")
+		assert.NotNil(t, hubResp.Properties, "Virtual Hub properties should not be nil")
+		assert.Equal(t, "172.22.0.0/23", *hubResp.Properties.AddressPrefix, "Virtual Hub should have correct address prefix")
 
-		// Validate gateway configuration
-		gwScale := getStringFromMap(t, vwan, "vpn_gateway_scale_unit")
-		assert.Equal(t, "1", gwScale, "Gateway should have correct scale unit")
+		// Validate ExpressRoute Gateway using SDK
+		ergwResp, err := erGatewayClient.Get(ctx, rgName, expectedErGatewayName, &armnetwork.ExpressRouteGatewaysClientGetOptions{})
+		require.NoError(t, err, "Failed to get Express Route Gateway")
+		assert.NotNil(t, ergwResp.Properties, "Express Route Gateway properties should not be nil")
+		assert.Equal(t, int32(1), *ergwResp.Properties.AutoScaleConfiguration.Bounds.Min, "Express Route Gateway should have correct min scale units")
+
+		// Validate Azure Firewall using SDK
+		fwResp, err := fwClient.Get(ctx, rgName, expectedFirewallName, &armnetwork.AzureFirewallsClientGetOptions{})
+		require.NoError(t, err, "Failed to get Azure Firewall")
+		assert.NotNil(t, fwResp.Properties, "Firewall properties should not be nil")
+		assert.Equal(t, "Premium", *fwResp.Properties.SKU.Tier, "Firewall should be Premium tier")
 	})
 }

@@ -30,14 +30,14 @@ output "resource_groups" {
   value = {
     # Hub resource group (always created)
     hub = {
-      id               = module.connectivity_resourcegroups[local.hub_resource_group_name].resource_id
-      name             = module.connectivity_resourcegroups[local.hub_resource_group_name].name
+      id   = module.connectivity_resourcegroups[local.hub_resource_group_name].resource_id
+      name = module.connectivity_resourcegroups[local.hub_resource_group_name].name
     }
     # Sidecar resource groups
     sidecar = {
       for name, rg in module.connectivity_resourcegroups : name => {
-        id               = rg.resource_id
-        name             = rg.name
+        id   = rg.resource_id
+        name = rg.name
       } if name != local.hub_resource_group_name
     }
   }
