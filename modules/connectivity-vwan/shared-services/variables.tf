@@ -13,14 +13,14 @@ variable "location" {
   description = "(Required) Azure region where the resource should be deployed."
 }
 
-variable "hub_resource_group_name" {
+variable "resource_group_name" {
   type        = string
-  description = "(Optional) The resource group where the hub resources will be deployed."
+  description = "(Optional) The resource group where the resources will be deployed."
   default     = null
 }
 
-variable "hub_resource_group_tags" {
+variable "resource_group_tags" {
   type        = map(string)
-  description = "(Optional) Tags to be applied to the hub resource group."
+  description = "(Optional) Tags to be applied to the resource group."
   default     = {}
 }

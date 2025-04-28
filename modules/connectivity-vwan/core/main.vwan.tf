@@ -4,7 +4,7 @@ module "vwan_with_vhub" {
   enable_telemetry = false
 
   location                       = var.location
-  resource_group_name            = local.resource_group_name
+  resource_group_name            = local.hub_resource_group_name
   create_resource_group          = false
   virtual_wan_name               = local.virtual_wan_name
   virtual_wan_tags               = var.virtual_wan_tags
@@ -15,7 +15,7 @@ module "vwan_with_vhub" {
   virtual_hubs = {
     vhub = merge(var.virtual_hub, {
       name           = local.virtual_hub_name
-      resource_group = local.resource_group_name
+      resource_group = local.hub_resource_group_name
       location       = var.location
     })
   }
@@ -43,7 +43,7 @@ module "vwan_with_vhub" {
       routing                              = conn.routing
       routing_weight                       = conn.routing_weight
       express_route_gateway_key            = "vhub-er-gw"
-      express_route_circuit_peering_id     = module.vwan_er_circuit[conn.peering.circuit_name].peerings[conn.peering.peering_name].id
+      express_route_circuit_peering_id     = module.connectivity_er_circuit[conn.peering.circuit_name].peerings[conn.peering.peering_name].id
     }
   } : {}
 
@@ -66,5 +66,14 @@ module "vwan_with_vhub" {
     })
   } : {}
 
-  depends_on = [module.vwan_resourcegroup, module.vwan_er_circuit]
+  virtual_network_connections = {
+    for k, v in module.connectivity_sidecar_virtualnetworks : k => {
+      name                      = "conn-${v.name}"
+      virtual_hub_key           = "vhub"
+      remote_virtual_network_id = v.resource_id
+      internet_security_enabled = false
+    }
+  }
+
+  depends_on = [module.connectivity_resourcegroups, module.connectivity_er_circuit, module.connectivity_sidecar_virtualnetworks]
 }

@@ -28,16 +28,59 @@
 - Go-based infrastructure testing
 - Supports parallel test execution
 - Integration testing capabilities
-- Example pattern:
-  ```go
-  func TestConnectivityLDZModule(t *testing.T) {
+- Type-safe helper functions
+- Comprehensive validation patterns
+
+##### Testing Helper Functions
+
+```go
+// Safe type assertion helpers
+func getMapFromOutput(t *testing.T, output interface{}, key string) map[string]interface{} {
+    value, ok := output.(map[string]interface{})
+    assert.True(t, ok, fmt.Sprintf("Failed to parse %s as map", key))
+    return value
+}
+
+func getStringFromMap(t *testing.T, m map[string]interface{}, key string) string {
+    value, ok := m[key].(string)
+    assert.True(t, ok, fmt.Sprintf("Failed to parse %s as string", key))
+    assert.NotEmpty(t, value, fmt.Sprintf("%s should not be empty", key))
+    return value
+}
+
+// Resource validation helpers
+func assertValidAzureResourceID(t *testing.T, id string, resourceType string) {
+    // Validates Azure resource ID format
+}
+
+func assertValidCIDR(t *testing.T, cidr string, description string) {
+    // Validates network CIDR format
+}
+```
+
+##### Example Test Pattern
+
+```go
+func TestConnectivityLDZModule(t *testing.T) {
     t.Parallel()
     terraformOptions := &terraform.Options{
-      TerraformDir: "..",
-      Vars: map[string]interface{}{...}
+        TerraformDir: "..",
+        Vars: map[string]interface{}{...}
     }
-  }
-  ```
+
+    // Get outputs safely
+    outputs := terraform.OutputAll(t, terraformOptions)
+    resourceMap := getMapFromOutput(t, outputs["resources"], "resources")
+
+    // Validate resource properties
+    id := getStringFromMap(resourceMap, "id")
+    assertValidAzureResourceID(t, id, "Resource")
+
+    // Validate network configuration
+    cidr := getStringFromMap(resourceMap, "address_space")
+    assertValidCIDR(t, cidr, "Network CIDR")
+}
+```
 
 ## Development Environment
 
@@ -134,10 +177,32 @@
 
 #### VWAN-Specific Testing
 
-1. Regional deployment validation
-2. Cross-region connectivity
-3. ExpressRoute integration
-4. Global routing patterns
+1. Component Validation
+
+   - Virtual WAN and Hub properties
+   - Firewall configuration and rules
+   - Gateway settings and scaling
+   - Network address spaces
+
+2. Resource Validation
+
+   - Azure resource ID format checking
+   - Network CIDR validation
+   - Tag compliance verification
+   - Role and permission validation
+
+3. Integration Testing
+
+   - Cross-region connectivity
+   - ExpressRoute circuit integration
+   - Global routing patterns
+   - Security policy enforcement
+
+4. Error Handling
+   - Type-safe output processing
+   - Comprehensive error messages
+   - Graceful failure handling
+   - Clear validation feedback
 
 ### 3. Version Control
 

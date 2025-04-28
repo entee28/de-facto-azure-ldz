@@ -1,29 +1,44 @@
-output "resource_group_name" {
-  description = "The name of the resource group"
-  value       = local.resource_group_name
+output "sidecar_virtual_networks" {
+  description = "A map of sidecar virtual networks containing information about each VNet"
+  value = {
+    for k, v in module.connectivity_sidecar_virtualnetworks : k => {
+      id        = v.resource_id
+      name      = v.name
+      subnets   = v.subnets
+      location  = v.resource.location
+      parent_id = v.resource.parent_id
+    }
+  }
 }
 
-output "virtual_wan_name" {
-  description = "The name of the Virtual WAN"
-  value       = local.virtual_wan_name
+output "virtual_wan" {
+  description = "Information about the Virtual WAN and its components"
+  value = {
+    id                          = module.vwan_with_vhub.virtual_wan_id
+    virtual_hub_name            = module.vwan_with_vhub.virtual_hub_resource_names["vhub"]
+    virtual_hub_id              = module.vwan_with_vhub.virtual_hub_resource_ids["vhub"]
+    vpn_gateway_name            = module.vwan_with_vhub.vpn_gateway_resource_names["vhub-vpn-gw"]
+    vpn_gateway_id              = module.vwan_with_vhub.vpn_gateway_resource_ids["vhub-vpn-gw"]
+    firewall_private_ip_address = module.vwan_with_vhub.firewall_private_ip_address["vhub-fw"]
+    firewall_name               = module.vwan_with_vhub.firewall_resource_names["vhub-fw"]
+    firewall_id                 = module.vwan_with_vhub.firewall_resource_ids["vhub-fw"]
+  }
 }
 
-output "virtual_hub_name" {
-  description = "The name of the Virtual Hub"
-  value       = local.virtual_hub_name
-}
-
-output "firewall_name" {
-  description = "The name of the Azure Firewall"
-  value       = local.firewall_name
-}
-
-output "vpn_gateway_name" {
-  description = "The name of the VPN Gateway"
-  value       = local.vpn_gateway_name
-}
-
-output "express_route_gateway_name" {
-  description = "The name of the ExpressRoute Gateway"
-  value       = local.express_route_gateway_name
+output "resource_groups" {
+  description = "Information about all resource groups created by the module"
+  value = {
+    # Hub resource group (always created)
+    hub = {
+      id               = module.connectivity_resourcegroups[local.hub_resource_group_name].resource_id
+      name             = module.connectivity_resourcegroups[local.hub_resource_group_name].name
+    }
+    # Sidecar resource groups
+    sidecar = {
+      for name, rg in module.connectivity_resourcegroups : name => {
+        id               = rg.resource_id
+        name             = rg.name
+      } if name != local.hub_resource_group_name
+    }
+  }
 }
