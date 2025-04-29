@@ -19,9 +19,10 @@ variable "resource_group_name" {
   default     = null
 }
 
-variable "shared_services_virtual_network_name" {
-  description = "The name of the shared services virtual network."
+variable "virtual_network_resource_id" {
   type        = string
+  description = "The resource ID of the virtual network where the private DNS zones will link to."
+  default     = null
 }
 
 variable "environment" {

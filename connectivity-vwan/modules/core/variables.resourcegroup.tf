@@ -17,4 +17,6 @@ variable "connectivity_sidecar_resourcegroups" {
     })), {})
     tags = optional(map(string), null)
   }))
+  default     = {}
+  description = "Map of resource groups for the connectivity sidecar. Each key is the name of the resource group, and the value is an object containing the properties of the resource group."
 }

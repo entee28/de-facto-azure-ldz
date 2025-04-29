@@ -9,6 +9,8 @@ locals {
   default_vpn_gateway_name        = format("vgw-%s-001", local.name_suffix)
   default_er_gateway_name         = format("ergw-%s-001", local.name_suffix)
   default_firewall_name           = format("fw-%s-001", local.name_suffix)
+  default_firewall_policy_name    = format("fwp-%s-001", local.name_suffix)
+
 
   hub_resource_group_name    = coalesce(var.hub_resource_group_name, local.default_hub_resource_group_name)
   virtual_wan_name           = coalesce(var.virtual_wan_name, local.default_virtual_wan_name)
@@ -16,6 +18,7 @@ locals {
   express_route_gateway_name = coalesce(var.express_route_gateway.name, local.default_er_gateway_name)
   vpn_gateway_name           = coalesce(var.vpn_gateway.name, local.default_vpn_gateway_name)
   firewall_name              = coalesce(var.firewall.name, local.default_firewall_name)
+  firewall_policy_name       = coalesce(var.firewall_policy.name, local.default_firewall_policy_name)
 
   # Merge hub and sidecar resource groups
   resource_groups = merge(

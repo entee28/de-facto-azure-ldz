@@ -26,7 +26,6 @@ variable "firewall" {
     sku_tier             = string
     name                 = optional(string)
     zones                = optional(list(number), [1, 2, 3])
-    firewall_policy_id   = optional(string)
     vhub_public_ip_count = optional(string)
     tags                 = optional(map(string))
   })

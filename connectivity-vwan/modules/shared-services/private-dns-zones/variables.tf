@@ -32,13 +32,8 @@ variable "tags" {
   default     = {}
 }
 
-variable "resource_group_tags" {
-  description = "Additional tags for the resource group"
-  type        = map(string)
-  default     = {}
-}
-
-variable "shared_services_virtual_network_name" {
-  description = "The name of the virtual network to link with the private DNS zones."
+variable "virtual_network_resource_id" {
   type        = string
+  description = "The resource ID of the virtual network where the private DNS zones will link to."
+  default     = null
 }

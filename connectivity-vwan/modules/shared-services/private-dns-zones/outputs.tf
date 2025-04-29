@@ -1,12 +1,3 @@
-# Resource Group outputs
-output "resource_group" {
-  description = "The resource group where private DNS zones are created"
-  value = {
-    name = module.avm-res-resource-group.name
-    id   = module.avm-res-resource-group.resource_id
-  }
-}
-
 # Private DNS Zone outputs
 output "private_dns_zones" {
   description = "Information about the created private DNS zones"

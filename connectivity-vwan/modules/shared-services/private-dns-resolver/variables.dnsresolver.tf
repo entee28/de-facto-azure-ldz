@@ -4,9 +4,10 @@ variable "name" {
   default     = null
 }
 
-variable "shared_services_virtual_network_name" {
+variable "virtual_network_resource_id" {
   type        = string
-  description = "The name of virtual network of the private DNS resolver"
+  description = "The resource ID of the virtual network where the DNS resolver will be created."
+  default     = null
 }
 
 variable "inbound_endpoints" {

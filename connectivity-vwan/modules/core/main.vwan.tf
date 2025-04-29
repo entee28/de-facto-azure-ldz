@@ -22,8 +22,9 @@ module "vwan_with_vhub" {
 
   firewalls = var.firewall != null ? {
     vhub-fw = merge(var.firewall, {
-      name            = local.firewall_name
-      virtual_hub_key = "vhub"
+      name               = local.firewall_name
+      virtual_hub_key    = "vhub"
+      firewall_policy_id = module.connectivity_firewallpolicy.resource_id
     })
   } : {}
 
@@ -75,5 +76,10 @@ module "vwan_with_vhub" {
     }
   }
 
-  depends_on = [module.connectivity_resourcegroups, module.connectivity_er_circuit, module.connectivity_sidecar_virtualnetworks]
+  depends_on = [
+    module.connectivity_resourcegroups,
+    module.connectivity_er_circuit,
+    module.connectivity_sidecar_virtualnetworks,
+    module.connectivity_firewallpolicy
+  ]
 }
