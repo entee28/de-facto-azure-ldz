@@ -138,10 +138,6 @@ func TestConnectivityVwan(t *testing.T) {
 						"environment": "test",
 						"managed_by":  "terratest",
 					},
-					"lock": map[string]interface{}{
-						"kind": "CanNotDelete",
-						"name": "lock",
-					},
 				},
 			},
 
