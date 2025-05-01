@@ -17,8 +17,8 @@ output "virtual_wan" {
     id                          = module.vwan_with_vhub.virtual_wan_id
     virtual_hub_name            = module.vwan_with_vhub.virtual_hub_resource_names["vhub"]
     virtual_hub_id              = module.vwan_with_vhub.virtual_hub_resource_ids["vhub"]
-    vpn_gateway_name            = module.vwan_with_vhub.vpn_gateway_resource_names["vhub-vpn-gw"]
-    vpn_gateway_id              = module.vwan_with_vhub.vpn_gateway_resource_ids["vhub-vpn-gw"]
+    vpn_gateway_name            = try(module.vwan_with_vhub.vpn_gateway_resource_names["vhub-vpn-gw"], null)
+    vpn_gateway_id              = try(module.vwan_with_vhub.vpn_gateway_resource_ids["vhub-vpn-gw"], null)
     firewall_private_ip_address = module.vwan_with_vhub.firewall_private_ip_address["vhub-fw"]
     firewall_name               = module.vwan_with_vhub.firewall_resource_names["vhub-fw"]
     firewall_id                 = module.vwan_with_vhub.firewall_resource_ids["vhub-fw"]

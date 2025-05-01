@@ -6,8 +6,8 @@ module "core" {
 
   virtual_hub = local.core.virtual_hub
   # firewall                            = local.core.firewall
-  express_route_gateway               = local.core.express_route_gateway
-  vpn_gateway                         = local.core.vpn_gateway
+  # express_route_gateway               = local.core.express_route_gateway
+  # vpn_gateway                         = local.core.vpn_gateway
   connectivity_sidecar_resourcegroups = local.core.connectivity_sidecar_resourcegroups
   sidecar_vnets                       = local.core.sidecar_vnets
   firewall_policy                     = local.core.firewall_policy
