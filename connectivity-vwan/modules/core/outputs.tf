@@ -42,3 +42,10 @@ output "resource_groups" {
     }
   }
 }
+
+output "firewall_policy" {
+  description = "Information about the firewall policy"
+  value = {
+    id = module.connectivity_firewallpolicy.resource_id
+  }
+}

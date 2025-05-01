@@ -2,16 +2,6 @@ name: Connectivity VWAN Core CI
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - "modules/connectivity/**"
-  # pull_request:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - "modules/connectivity/**"
 
 permissions:
   id-token: write
@@ -21,7 +11,7 @@ jobs:
   terratest-workflow:
     uses: ./.github/workflows/module-terratest.yaml
     with:
-      working_dir: ./modules/connectivity-vwan/core/test
+      working_dir: ./connectivity-vwan/core/test
     secrets:
       client-id: ${{secrets.CLIENT_ID}}
       subscription-id: ${{secrets.SUBSCRIPTION_ID}}

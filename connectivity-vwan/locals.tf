@@ -38,12 +38,12 @@ locals {
     sidecar_vnets = {
       shared_services = {
         name                = local.name.shared_services_virtual_network_name
-        address_prefix      = ["172.29.2.0/23"]
+        address_space       = ["172.29.2.0/23"]
         resource_group_name = local.name.shared_services_resource_group_name
         subnets = {
           dnspr_inbound = {
             name           = "snet-dnspr-inbound-prd-sea-001"
-            address_prefix = ["172.29.2.0/27"]
+            address_prefix = "172.29.2.0/27"
             delegation = [
               {
                 name = "Microsoft.Network/dnsResolvers"
@@ -55,7 +55,7 @@ locals {
           }
           dnspr_outbound = {
             name           = "snet-dnspr-outbound-prd-sea-001"
-            address_prefix = ["172.29.2.32/27"]
+            address_prefix = "172.29.2.32/27"
             delegation = [
               {
                 name = "Microsoft.Network/dnsResolvers"
@@ -67,18 +67,18 @@ locals {
           }
           jump = {
             name           = "snet-jump-prd-sea-001"
-            address_prefix = ["172.29.2.64/28"]
+            address_prefix = "172.29.2.64/28"
           }
         }
       }
       partner = {
         name                = "vnet-platform-partner-prd-sea-001"
-        address_prefix      = ["172.29.6.0/24"]
+        address_space       = ["172.29.6.0/24"]
         resource_group_name = "rg-fabrikam-platform-partner-prd-sea-001"
       }
       appgw = {
         name                = "vnet-platform-appgw-prd-sea-001"
-        address_prefix      = ["172.29.7.0/24"]
+        address_space       = ["172.29.7.0/24"]
         resource_group_name = "rg-fabrikam-platform-appgw-prd-sea-001"
       }
     }

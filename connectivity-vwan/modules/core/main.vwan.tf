@@ -20,7 +20,7 @@ module "vwan_with_vhub" {
     })
   }
 
-  firewalls = var.firewall != null ? {
+  firewalls = var.firewall != {} ? {
     vhub-fw = merge(var.firewall, {
       name               = local.firewall_name
       virtual_hub_key    = "vhub"

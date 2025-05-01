@@ -23,14 +23,14 @@ variable "virtual_hub" {
 variable "firewall" {
   type = object({
     sku_name             = optional(string, "AZFW_Hub")
-    sku_tier             = string
+    sku_tier             = optional(string, "Standard")
     name                 = optional(string)
     zones                = optional(list(number), [1, 2, 3])
     vhub_public_ip_count = optional(string)
     tags                 = optional(map(string))
   })
   description = "Configuration for the Firewall."
-  default     = null
+  default     = {}
 }
 
 variable "express_route_gateway" {

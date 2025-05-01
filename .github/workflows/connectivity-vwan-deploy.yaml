@@ -8,10 +8,10 @@ permissions:
   contents: read
 
 jobs:
-  terraform-deploy:
+  terratest-workflow:
     uses: ./.github/workflows/terraform-deploy.yaml
     with:
-      working_dir: ./connectivity-vwan
+      working_dir: ./modules/connectivity-vwan/core/test
     secrets:
       client-id: ${{secrets.CLIENT_ID}}
       subscription-id: ${{secrets.SUBSCRIPTION_ID}}

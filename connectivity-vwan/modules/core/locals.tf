@@ -14,11 +14,11 @@ locals {
 
   hub_resource_group_name    = coalesce(var.hub_resource_group_name, local.default_hub_resource_group_name)
   virtual_wan_name           = coalesce(var.virtual_wan_name, local.default_virtual_wan_name)
-  virtual_hub_name           = coalesce(var.virtual_hub.name, local.default_virtual_hub_name)
-  express_route_gateway_name = coalesce(var.express_route_gateway.name, local.default_er_gateway_name)
-  vpn_gateway_name           = coalesce(var.vpn_gateway.name, local.default_vpn_gateway_name)
-  firewall_name              = coalesce(var.firewall.name, local.default_firewall_name)
-  firewall_policy_name       = coalesce(var.firewall_policy.name, local.default_firewall_policy_name)
+  virtual_hub_name           = coalesce(try(var.virtual_hub.name, null), local.default_virtual_hub_name)
+  express_route_gateway_name = coalesce(try(var.express_route_gateway.name, null), local.default_er_gateway_name)
+  vpn_gateway_name           = coalesce(try(var.vpn_gateway.name, null), local.default_vpn_gateway_name)
+  firewall_name              = coalesce(try(var.firewall.name, null), local.default_firewall_name)
+  firewall_policy_name       = coalesce(try(var.firewall_policy.name, null), local.default_firewall_policy_name)
 
   # Merge hub and sidecar resource groups
   resource_groups = merge(

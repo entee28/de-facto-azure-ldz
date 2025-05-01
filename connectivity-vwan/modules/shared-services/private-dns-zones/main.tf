@@ -10,16 +10,81 @@ module "avm-res-network-privatednszone" {
 
   virtual_network_links = {
     shared_vnet_link = {
-      virtual_network_id   = local.virtual_network_resource_id
-      registration_enabled = each.value.vnet_link_registration_enabled
+      vnetlinkname     = "shared-vnet-link"
+      vnetid           = local.virtual_network_resource_id
+      autoregistration = each.value.vnet_link_autoregistration
     }
   }
 
-  a_records     = each.value.a_records
-  aaaa_records  = each.value.aaaa_records
-  cname_records = each.value.cname_records
-  mx_records    = each.value.mx_records
-  srv_records   = each.value.srv_records
-  txt_records   = each.value.txt_records
-  tags          = merge(var.tags, each.value.tags)
+  a_records = {
+    for k, v in each.value.a_records : k => {
+      name                = v.name
+      ttl                 = v.ttl
+      records             = v.records
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  aaaa_records = {
+    for k, v in each.value.aaaa_records : k => {
+      name                = v.name
+      ttl                 = v.ttl
+      records             = v.records
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  cname_records = {
+    for k, v in each.value.cname_records : k => {
+      name                = v.name
+      ttl                 = v.ttl
+      record              = v.record
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  mx_records = {
+    for k, v in each.value.mx_records : k => {
+      name                = v.name
+      ttl                 = v.ttl
+      records             = v.records
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  srv_records = {
+    for k, v in each.value.srv_records : k => {
+      name                = v.name
+      ttl                 = v.ttl
+      records             = v.records
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  txt_records = {
+    for k, v in each.value.txt_records : k => {
+      name = v.name
+      ttl  = v.ttl
+      records = {
+        for i, record in v.records[0] : tostring(i) => {
+          value = record
+        }
+      }
+      resource_group_name = local.resource_group_name
+      zone_name           = each.value.domain_name
+      tags                = v.tags
+    }
+  }
+
+  tags = merge(var.tags, each.value.tags)
 }
