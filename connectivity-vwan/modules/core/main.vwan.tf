@@ -20,13 +20,18 @@ module "vwan_with_vhub" {
     })
   }
 
-  firewalls = var.firewall != {} ? {
-    vhub-fw = merge(var.firewall, {
-      name               = local.firewall_name
-      virtual_hub_key    = "vhub"
-      firewall_policy_id = module.connectivity_firewallpolicy.resource_id
-    })
-  } : {}
+  firewalls = var.firewall == null ? {} : {
+    vhub-fw = {
+      name                 = local.firewall_name
+      virtual_hub_key      = "vhub"
+      firewall_policy_id   = module.connectivity_firewallpolicy.resource_id
+      sku_name             = "AZFW_Hub"
+      sku_tier             = var.firewall.sku_tier
+      zones                = var.firewall.zones
+      vhub_public_ip_count = var.firewall.vhub_public_ip_count
+      tags                 = var.firewall.tags
+    }
+  }
 
   expressroute_gateways = var.express_route_gateway != null ? {
     vhub-er-gw = merge(var.express_route_gateway, {

@@ -22,7 +22,6 @@ variable "virtual_hub" {
 
 variable "firewall" {
   type = object({
-    sku_name             = optional(string, "AZFW_Hub")
     sku_tier             = optional(string, "Standard")
     name                 = optional(string)
     zones                = optional(list(number), [1, 2, 3])
@@ -30,7 +29,7 @@ variable "firewall" {
     tags                 = optional(map(string))
   })
   description = "Configuration for the Firewall."
-  default     = {}
+  default     = null
 }
 
 variable "express_route_gateway" {
