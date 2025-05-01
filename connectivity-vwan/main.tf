@@ -38,6 +38,8 @@ module "core" {
 #   company_name    = local.company_name
 #   subscription_id = local.subscription_id
 #   location        = local.location
+
+#   depends_on = [module.core]
 # }
 
 module "private_dns_zones" {
@@ -46,6 +48,8 @@ module "private_dns_zones" {
   subscription_id   = local.subscription_id
   location          = local.location
   private_dns_zones = local.private_dns_zones
+
+  depends_on = [module.core]
 }
 
 module "firewall_policy_rule_collection_groups" {
@@ -66,4 +70,6 @@ module "firewall_policy_rule_collection_groups" {
       ]
     }
   ]
+
+  depends_on = [module.core]
 }

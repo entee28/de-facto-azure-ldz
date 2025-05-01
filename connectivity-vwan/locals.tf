@@ -25,7 +25,7 @@ locals {
 
     connectivity_sidecar_resourcegroups = {
       shared_services = {
-        name = "rg-fabrikam-platform-shared-prd-sea-001"
+        name = local.name.shared_services_resource_group_name
       }
       appgw = {
         name = "rg-fabrikam-platform-appgw-prd-sea-001"
