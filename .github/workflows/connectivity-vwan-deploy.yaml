@@ -1,4 +1,4 @@
-name: Connectivity VWAN Core CI
+name: Connectivity Deploy
 
 on:
   workflow_dispatch:
@@ -8,10 +8,10 @@ permissions:
   contents: read
 
 jobs:
-  terratest-workflow:
+  terraform-deploy:
     uses: ./.github/workflows/terraform-deploy.yaml
     with:
-      working_dir: ./modules/connectivity-vwan/core/test
+      working_dir: ./connectivity-vwan
     secrets:
       client-id: ${{secrets.CLIENT_ID}}
       subscription-id: ${{secrets.SUBSCRIPTION_ID}}
