@@ -1,7 +1,7 @@
 resource "azurerm_user_assigned_identity" "management" {
-  location            = azurerm_resource_group.management.location
-  name                = "id-terraform-${random_id.id.hex}"
-  resource_group_name = azurerm_resource_group.management.name
+  location            = var.location
+  name                = "id-management-${local.name_suffix}-001"
+  resource_group_name = local.resource_group_name
 }
 
 module "management" {

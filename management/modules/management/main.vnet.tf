@@ -4,7 +4,7 @@ module "management_virtualnetwork" {
   enable_telemetry = false
 
   location            = var.location
-  name                = var.management_virtual_network.name
+  name                = local.management_virtual_network_name
   address_space       = var.management_virtual_network.address_space
   resource_group_name = local.resource_group_name
 
@@ -21,7 +21,7 @@ module "management_virtualnetwork" {
   tags                    = var.management_virtual_network.tags
 
   depends_on = [
-    module.connectivity_resourcegroups
+    module.management_resourcegroup
   ]
 }
 
@@ -40,7 +40,6 @@ module "management_vnet_connection" {
   }
 
   depends_on = [
-    module.management_virtualnetwork,
-    module.connectivity_vwan
+    module.management_virtualnetwork
   ]
 }
