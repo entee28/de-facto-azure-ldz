@@ -26,4 +26,6 @@ module "monitor-privatelinkscope" {
     private_dns_zone_subscription_id = local.subscription_id
     subnet_id                        = module.management.management_virtual_network.subnets["ampls"].resource_id
   }
+
+  depends_on = [module.management]
 }

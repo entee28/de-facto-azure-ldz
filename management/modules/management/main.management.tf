@@ -1,7 +1,7 @@
 resource "azurerm_user_assigned_identity" "management" {
   location            = var.location
   name                = "id-management-${local.name_suffix}-001"
-  resource_group_name = local.resource_group_name
+  resource_group_name = module.management_resourcegroup.name
 }
 
 module "management" {
@@ -12,7 +12,7 @@ module "management" {
   automation_account_name         = local.automation_account_name
   location                        = var.location
   log_analytics_workspace_name    = local.log_analytics_workspace_name
-  resource_group_name             = local.resource_group_name
+  resource_group_name             = module.management_resourcegroup.name
   resource_group_creation_enabled = false
 
   automation_account_identity = {

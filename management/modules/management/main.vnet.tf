@@ -6,7 +6,7 @@ module "management_virtualnetwork" {
   location            = var.location
   name                = local.management_virtual_network_name
   address_space       = var.management_virtual_network.address_space
-  resource_group_name = local.resource_group_name
+  resource_group_name = module.management_resourcegroup.name
 
   bgp_community           = var.management_virtual_network.bgp_community
   ddos_protection_plan    = var.management_virtual_network.ddos_protection_plan
