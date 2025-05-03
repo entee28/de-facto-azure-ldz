@@ -77,7 +77,7 @@ module "vwan_with_vhub" {
       name                      = "conn-${v.name}"
       virtual_hub_key           = "vhub"
       remote_virtual_network_id = v.resource_id
-      internet_security_enabled = false
+      internet_security_enabled = true
     }
   }
 

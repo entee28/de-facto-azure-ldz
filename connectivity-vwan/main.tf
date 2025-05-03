@@ -33,14 +33,14 @@ module "core" {
 #   }
 # }
 
-# module "private_link_private_dns_zones" {
-#   source          = "./modules/shared-services/private-link-private-dns-zones"
-#   company_name    = local.company_name
-#   subscription_id = local.subscription_id
-#   location        = local.location
+module "private_link_private_dns_zones" {
+  source          = "./modules/shared-services/private-link-private-dns-zones"
+  company_name    = local.company_name
+  subscription_id = local.subscription_id
+  location        = local.location
 
-#   depends_on = [module.core]
-# }
+  depends_on = [module.core]
+}
 
 module "private_dns_zones" {
   source            = "./modules/shared-services/private-dns-zones"
