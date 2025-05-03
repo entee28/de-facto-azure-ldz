@@ -5,7 +5,7 @@ module "security" {
   location       = local.location
   virtual_hub_id = local.virtual_hub_id
   virtual_network = {
-    address_space = ["172.29.4.0/24"]
+    address_space = ["172.29.5.0/24"]
     dns_servers = {
       dns_servers = ["172.29.2.4"]
     }
