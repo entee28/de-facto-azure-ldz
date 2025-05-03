@@ -12,5 +12,5 @@ locals {
   automation_account_name         = coalesce(var.automation_account_name, local.default_automation_account_name)
   log_analytics_workspace_name    = coalesce(var.log_analytics_workspace_name, local.default_log_analytics_workspace_name)
   user_assigned_identity_ama_name = format("id-ama-%s-001", local.name_suffix)
-  management_virtual_network_name = coalesce(var.management_virtual_network.name, local.default_management_virtual_network_name)
+  management_virtual_network_name = coalesce(var.virtual_network.name, local.default_management_virtual_network_name)
 }

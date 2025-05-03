@@ -1,6 +1,6 @@
 resource "azurerm_user_assigned_identity" "management" {
   location            = var.location
-  name                = "id-management-${local.name_suffix}-001"
+  name                = "id-managemen-aa-${local.name_suffix}-001"
   resource_group_name = module.management_resourcegroup.name
 }
 
