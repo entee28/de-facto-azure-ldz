@@ -29,3 +29,9 @@ module "monitor-privatelinkscope" {
 
   depends_on = [module.management]
 }
+
+module "monitor-privatelinkscope-service" {
+  source                                 = "./modules/monitor-privatelinkscope-service"
+  monitor_private_link_scope_resource_id = module.monitor-privatelinkscope.monitor_private_link_scope.id
+  service_resource_id                    = module.management.management_log_analytics_workspace.id
+}
