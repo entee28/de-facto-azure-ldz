@@ -1,6 +1,6 @@
 resource "azurerm_user_assigned_identity" "management" {
   location            = var.location
-  name                = "id-managemen-aa-${local.name_suffix}-001"
+  name                = local.automation_account_managed_identity_name
   resource_group_name = module.management_resourcegroup.name
 }
 
@@ -38,22 +38,22 @@ module "management" {
 
   user_assigned_managed_identities = {
     ama = {
-      name = local.user_assigned_identity_ama_name
+      name = local.monitor_agent_managed_identity_name
       tags = var.tags
     }
   }
 
   data_collection_rules = {
     change_tracking = {
-      name = "dcr-change-tracking-${local.name_suffix}-001"
+      name = local.change_tracking_dcr_name
       tags = var.tags
     }
     vm_insights = {
-      name = "dcr-vm-insights-${local.name_suffix}-001"
+      name = local.vm_insights_dcr_name
       tags = var.tags
     }
     defender_sql = {
-      name = "dcr-defender-sql-${local.name_suffix}-001"
+      name = local.defender_sql_dcr_name
       tags = var.tags
     }
   }

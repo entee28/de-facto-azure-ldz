@@ -11,6 +11,11 @@ locals {
   resource_group_name             = coalesce(var.resource_group_name, local.default_resource_group_name)
   automation_account_name         = coalesce(var.automation_account_name, local.default_automation_account_name)
   log_analytics_workspace_name    = coalesce(var.log_analytics_workspace_name, local.default_log_analytics_workspace_name)
-  user_assigned_identity_ama_name = format("id-ama-%s-001", local.name_suffix)
   management_virtual_network_name = coalesce(var.virtual_network.name, local.default_management_virtual_network_name)
+
+  monitor_agent_managed_identity_name      = format("id-ama-%s-001", local.name_suffix)
+  automation_account_managed_identity_name = format("id-aa-%s-001", local.name_suffix)
+  change_tracking_dcr_name                 = format("dcr-change-tracking-%s-001", local.name_suffix)
+  vm_insights_dcr_name                     = format("dcr-vm-insights-%s-001", local.name_suffix)
+  defender_sql_dcr_name                    = format("dcr-defender-sql-%s-001", local.name_suffix)
 }

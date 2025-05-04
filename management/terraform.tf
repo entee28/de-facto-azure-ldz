@@ -5,6 +5,11 @@ terraform {
       version = ">= 4.0.0"
       source  = "hashicorp/azurerm"
     }
+
+    alz = {
+      source  = "Azure/alz"
+      version = "~> 0.17"
+    }
   }
 
   backend "azurerm" {

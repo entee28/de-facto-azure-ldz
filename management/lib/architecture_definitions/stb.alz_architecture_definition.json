@@ -1,0 +1,123 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/architecture_definition.json",
+  "name": "stb",
+  "management_groups": [
+    {
+      "archetypes": [
+        "stb"
+      ],
+      "display_name": "stb",
+      "exists": false,
+      "id": "stb",
+      "parent_id": null
+    },
+    {
+      "archetypes": [
+        "stb-platform"
+      ],
+      "display_name": "platform",
+      "exists": false,
+      "id": "platform",
+      "parent_id": "stb"
+    },
+    {
+      "archetypes": [
+        "stb-landingzones"
+      ],
+      "display_name": "landingzones",
+      "exists": false,
+      "id": "landingzones",
+      "parent_id": "stb"
+    },
+    {
+      "archetypes": [
+        "coe"
+      ],
+      "display_name": "coe",
+      "exists": false,
+      "id": "coe",
+      "parent_id": "landingzones"
+    },
+    {
+      "archetypes": [
+        "coe-infra"
+      ],
+      "display_name": "coe-infra",
+      "exists": false,
+      "id": "coeinfra",
+      "parent_id": "coe"
+    },
+    {
+      "archetypes": [
+        "coe-predictiveai"
+      ],
+      "display_name": "coe-predictiveai",
+      "exists": false,
+      "id": "coepredictiveai",
+      "parent_id": "coe"
+    },
+    {
+      "archetypes": [
+        "coe-generativeai"
+      ],
+      "display_name": "coe-generativeai",
+      "exists": false,
+      "id": "coegenerativeai",
+      "parent_id": "coe"
+    },
+    {
+      "archetypes": [
+        "coe-devops"
+      ],
+      "display_name": "coe-devops",
+      "exists": false,
+      "id": "coedevops",
+      "parent_id": "coe"
+    },
+    {
+      "archetypes": [
+        "sandbox"
+      ],
+      "display_name": "sandbox",
+      "exists": false,
+      "id": "sandbox",
+      "parent_id": "stb"
+    },
+    {
+      "archetypes": [
+        "stb-management"
+      ],
+      "display_name": "management",
+      "exists": false,
+      "id": "management",
+      "parent_id": "platform"
+    },
+    {
+      "archetypes": [
+        "stb-connectivity"
+      ],
+      "display_name": "connectivity",
+      "exists": false,
+      "id": "connectivity",
+      "parent_id": "platform"
+    },
+    {
+      "archetypes": [
+        "stb-identity"
+      ],
+      "display_name": "identity",
+      "exists": false,
+      "id": "identity",
+      "parent_id": "platform"
+    },
+    {
+      "archetypes": [
+        "decommissioned"
+      ],
+      "display_name": "Decommissioned",
+      "exists": false,
+      "id": "decommissioned",
+      "parent_id": "stb"
+    }
+  ]
+}

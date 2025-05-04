@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/azure/alz" {
   version     = "0.17.4"
-  constraints = "~> 0.17"
+  constraints = "~> 0.16, ~> 0.17"
   hashes = [
     "h1:ckelKzl2T4WKmw40zV1tBAPNd6YGQdbVuKOuzh58AvQ=",
     "zh:132c701e1980e65b51e7e3989161a9b907e222f995f3086a09e3a1098f8a9062",
@@ -26,7 +26,7 @@ provider "registry.terraform.io/azure/alz" {
 
 provider "registry.terraform.io/azure/azapi" {
   version     = "2.3.0"
-  constraints = ">= 1.13.0, ~> 2.0, < 3.0.0"
+  constraints = ">= 1.13.0, ~> 2.0, >= 2.0.1, ~> 2.2, < 3.0.0"
   hashes = [
     "h1:oPUOB78DfRam5NynxPimR0MmbvjjRspetXuWJlADjbE=",
     "zh:038dfc9190827e4fe5635d7f81a44bb568e19c37847896ad2af8cc580ac28f77",

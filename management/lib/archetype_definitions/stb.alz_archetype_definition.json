@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/archetype_definition.json",
+  "name": "stb",
+  "policy_assignments": [
+    "Audit-InternetVM-NSG",
+    "Audit-NonInternetVM-NSG",
+    "Audit-Subnet-Without-Nsg",
+    "Audit-VM-IP-forwarding",
+    "Deny-AllowedLocation",
+    "Deny-AllowedRGLocation",
+    "Deny-Public-IP-On-NIC",
+    "Deny-Storage-http",
+    "Deny-Storage-PublicAccess",
+    "Deploy-CIS-Monitoring",
+    "Deploy-ISO-Monitoring"
+  ],
+  "policy_definitions": [],
+  "policy_set_definitions": [],
+  "role_definitions": []
+}
