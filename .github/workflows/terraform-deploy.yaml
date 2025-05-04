@@ -17,8 +17,8 @@ permissions:
   contents: read
 
 jobs:
-  terratest:
-    name: Terratest
+  terraform:
+    name: Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
