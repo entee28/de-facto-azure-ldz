@@ -2,12 +2,6 @@ resource "random_id" "suffix" {
   byte_length = 2
 }
 
-resource "azurerm_user_assigned_identity" "security" {
-  location            = var.location
-  name                = "id-security-${local.name_suffix}-001"
-  resource_group_name = module.security_resourcegroup.name
-}
-
 module "security_log_analytics_workspace" {
   source           = "Azure/avm-res-operationalinsights-workspace/azurerm"
   version          = "0.4.2"
@@ -26,8 +20,7 @@ module "security_log_analytics_workspace" {
   log_analytics_workspace_retention_in_days                  = var.log_analytics_workspace_retention_in_days
   log_analytics_workspace_sku                                = var.log_analytics_workspace_sku
   log_analytics_workspace_identity = {
-    type         = "SystemAssigned, UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.security.id]
+    type = "SystemAssigned"
   }
   role_assignments = var.role_assignments
 
