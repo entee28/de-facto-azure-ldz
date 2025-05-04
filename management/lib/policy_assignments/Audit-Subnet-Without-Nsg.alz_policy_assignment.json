@@ -6,7 +6,7 @@
   "properties": {
     "description": "This policy denies the creation of a subnet without a Network Security Group to protect traffic across subnets.",
     "displayName": "Subnets should have a Network Security Group",
-    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/placeholder/providers/Microsoft.Authorization/policyDefinitions/Deny-Subnet-Without-Nsg",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e71308d3-144b-4262-b144-efdc3cc90517",
     "enforcementMode": "Default",
     "nonComplianceMessages": [
       {
@@ -17,5 +17,5 @@
     "notScopes": [],
     "parameters": {}
   },
-  "location": "uksouth"
+  "location": "southeastasia"
 }

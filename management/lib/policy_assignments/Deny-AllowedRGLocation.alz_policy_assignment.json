@@ -13,7 +13,13 @@
                 "message": "Resource group {enforcementMode} be deployed in the allowed regions."
             }
         ],
-        "parameters": {},
+        "parameters": {
+            "listOfAllowedLocations": {
+                "value": [
+                    "southeastasia"
+                ]
+            }
+        },
         "scope": "/providers/Microsoft.Management/managementGroups/placeholder",
         "notScopes": []
     },

@@ -17,7 +17,11 @@
         "message": "CIS Microsoft Azure Foundations Benchmark v2.0.0 {enforcementMode} be met."
       }
     ],
-    "parameters": {},
+    "parameters": {
+      "maximumDaysToRotate-d8cf8476-a2ec-4916-896e-992351803c44": {
+        "value": 180
+      }
+    },
     "scope": "/providers/Microsoft.Management/managementGroups/placeholder",
     "notScopes": []
   }

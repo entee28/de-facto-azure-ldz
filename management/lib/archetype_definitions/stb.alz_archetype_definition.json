@@ -10,7 +10,7 @@
     "Deny-AllowedRGLocation",
     "Deny-Public-IP-On-NIC",
     "Deny-Storage-http",
-    "Deny-Storage-PublicAccess",
+    "Deny-PublicStorage",
     "Deploy-CIS-Monitoring",
     "Deploy-ISO-Monitoring"
   ],

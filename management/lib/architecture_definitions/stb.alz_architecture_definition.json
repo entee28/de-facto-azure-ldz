@@ -76,7 +76,7 @@
     },
     {
       "archetypes": [
-        "sandbox"
+        "stb-sandbox"
       ],
       "display_name": "sandbox",
       "exists": false,
@@ -112,7 +112,7 @@
     },
     {
       "archetypes": [
-        "decommissioned"
+        "stb-decommissioned"
       ],
       "display_name": "Decommissioned",
       "exists": false,
