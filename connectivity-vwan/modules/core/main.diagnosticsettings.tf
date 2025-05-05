@@ -90,4 +90,5 @@ resource "azurerm_monitor_diagnostic_setting" "express_route_gateway_diagnostic_
       category = metric.value
     }
   }
+  depends_on = [module.vwan_with_vhub]
 }
