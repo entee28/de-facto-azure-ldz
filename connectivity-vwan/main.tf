@@ -26,25 +26,25 @@ module "core" {
   }
 }
 
-module "private_dns_resolver" {
-  source          = "./modules/shared-services/private-dns-resolver"
-  subscription_id = local.subscription_id
-  company_name    = local.company_name
-  location        = local.location
+# module "private_dns_resolver" {
+#   source          = "./modules/shared-services/private-dns-resolver"
+#   subscription_id = local.subscription_id
+#   company_name    = local.company_name
+#   location        = local.location
 
-  inbound_endpoints = {
-    inbound = {
-      subnet_name                  = local.name.dns_resolver_inbound_subnet_name
-      private_ip_allocation_method = "Static"
-      private_ip_address           = "172.29.2.4"
-    }
-  }
-  outbound_endpoints = {
-    outbound = {
-      subnet_name = local.name.dns_resolver_outbound_subnet_name
-    }
-  }
-}
+#   inbound_endpoints = {
+#     inbound = {
+#       subnet_name                  = local.name.dns_resolver_inbound_subnet_name
+#       private_ip_allocation_method = "Static"
+#       private_ip_address           = "172.29.2.4"
+#     }
+#   }
+#   outbound_endpoints = {
+#     outbound = {
+#       subnet_name = local.name.dns_resolver_outbound_subnet_name
+#     }
+#   }
+# }
 
 module "private_link_private_dns_zones" {
   source          = "./modules/shared-services/private-link-private-dns-zones"
