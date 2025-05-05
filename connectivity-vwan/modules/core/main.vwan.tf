@@ -26,8 +26,13 @@ module "vwan_with_vhub" {
       virtual_hub_key = "vhub"
       routing_policies = [
         {
-          name                  = "hubRoutingPolicy"
-          destinations          = ["Internet", "PrivateTraffic"]
+          name                  = "internetRoutingPolicy"
+          destinations          = ["Internet"]
+          next_hop_firewall_key = "vhub-fw"
+        },
+        {
+          name                  = "privateTrafficRoutingPolicy"
+          destinations          = ["PrivateTraffic"]
           next_hop_firewall_key = "vhub-fw"
         }
       ]
