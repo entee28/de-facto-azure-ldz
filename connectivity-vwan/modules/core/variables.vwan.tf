@@ -39,7 +39,7 @@ variable "express_route_gateway" {
     allow_non_virtual_wan_traffic = optional(bool, false)
     scale_units                   = optional(number, 1)
   })
-  description = "Configuration for ExpressRoute Gateway. Contains name, virtual_hub_key, optional sku (defaults to Standard), address_prefix, routing_preference (defaults to ExpressRoute), and optional tags."
+  description = "Configuration for ExpressRoute Gateway. Contains name, optional sku (defaults to Standard), address_prefix, routing_preference (defaults to ExpressRoute), and optional tags."
   default     = null
 }
 
@@ -61,7 +61,7 @@ variable "vpn_gateway" {
     routing_preference = optional(string)
     scale_unit         = optional(number)
   })
-  description = "Configuration for VPN Gateway. Contains name, virtual_hub_key, optional sku (defaults to Standard), address_prefix, routing_preference (defaults to ExpressRoute), and optional tags."
+  description = "Configuration for VPN Gateway. Contains name, optional sku (defaults to Standard), address_prefix, routing_preference (defaults to ExpressRoute), and optional tags."
   default     = null
 }
 

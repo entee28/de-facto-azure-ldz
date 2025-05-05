@@ -1,3 +1,9 @@
+variable "linked_automation_account_creation_enabled" {
+  type        = bool
+  description = "(Optional) Enable the creation of a linked Automation Account. Defaults to false."
+  default     = false
+}
+
 variable "automation_account_name" {
   type        = string
   description = "(Optional) The name of the Automation Account."

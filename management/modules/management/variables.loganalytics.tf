@@ -10,16 +10,7 @@ variable "log_analytics_solution_plans" {
     publisher = optional(string, "Microsoft")
   }))
   description = "(Optional) A list of log analytics solution plans. Each plan is a map with keys 'product' and 'publisher'."
-  default = [
-    {
-      "product" : "OMSGallery/ContainerInsights",
-      "publisher" : "Microsoft"
-    },
-    {
-      "product" : "OMSGallery/VMInsights",
-      "publisher" : "Microsoft"
-    }
-  ]
+  default     = []
 }
 
 variable "log_analytics_workspace_cmk_for_query_forced" {
@@ -68,4 +59,60 @@ variable "log_analytics_workspace_sku" {
   type        = string
   description = "(Optional) The SKU for the Log Analytics Workspace."
   default     = "PerGB2018"
+}
+
+variable "user_assigned_managed_identities" {
+  type = object({
+    ama = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+  })
+  default = {
+    ama = {
+      name    = "id-ama-management-prd"
+      enabled = false
+    }
+  }
+}
+
+variable "data_collection_rules" {
+  description = "Enables customisation of the data collection rules for Azure Monitor. This is an object with attributes pertaining to the three DCRs that are created by this module."
+  type = object({
+    change_tracking = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+    vm_insights = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+    defender_sql = object({
+      enabled                                                = optional(bool, true)
+      name                                                   = string
+      location                                               = optional(string, null)
+      tags                                                   = optional(map(string), null)
+      enable_collection_of_sql_queries_for_security_research = optional(bool, false)
+    })
+  })
+  default = {
+    change_tracking = {
+      enabled = false
+      name    = "dcr-change-tracking-management-prd"
+    }
+    vm_insights = {
+      enabled = false
+      name    = "dcr-vm-insights-management-prd"
+    }
+    defender_sql = {
+      enabled = false
+      name    = "dcr-defender-sql-management-prd"
+    }
+  }
 }

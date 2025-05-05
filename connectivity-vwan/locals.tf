@@ -85,6 +85,10 @@ locals {
 
     firewall_policy = {
       sku = "Standard"
+      dns = {
+        proxy_enabled = true
+        servers       = ["172.29.2.4"]
+      }
     }
   }
 

@@ -20,6 +20,20 @@ module "vwan_with_vhub" {
     })
   }
 
+  routing_intents = {
+    hubRoutingIntent = {
+      name            = "hubRoutingIntent"
+      virtual_hub_key = "vhub"
+      routing_policies = [
+        {
+          name                  = "hubRoutingPolicy"
+          destinations          = ["Internet", "PrivateTraffic"]
+          next_hop_firewall_key = "vhub-fw"
+        }
+      ]
+    }
+  }
+
   firewalls = var.firewall == null ? {} : {
     vhub-fw = {
       name                 = local.firewall_name
