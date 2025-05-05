@@ -36,3 +36,20 @@ variable "automation_account_sku_name" {
   description = "(Optional) The SKU name for the Automation Account. Defaults to 'Basic'."
   default     = "Basic"
 }
+
+variable "user_assigned_managed_identities" {
+  type = object({
+    ama = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+  })
+  default = {
+    ama = {
+      name    = "id-ama-management-prd"
+      enabled = false
+    }
+  }
+}

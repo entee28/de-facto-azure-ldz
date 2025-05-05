@@ -11,6 +11,7 @@ module "management" {
 
   user_assigned_managed_identities = var.user_assigned_managed_identities
   data_collection_rules            = var.data_collection_rules
+  sentinel_onboarding              = var.sentinel_onboarding
 
   automation_account_identity = {
     type = "SystemAssigned"

@@ -49,3 +49,50 @@ variable "resource_group_lock" {
   description = "(Optional) Controls the Resource Lock configuration for this resource group."
   default     = null
 }
+
+variable "sentinel_onboarding" {
+  type = object({
+    name                         = optional(string, "default")
+    customer_managed_key_enabled = optional(bool, false)
+  })
+  default = null
+}
+
+variable "data_collection_rules" {
+  description = "Enables customisation of the data collection rules for Azure Monitor. This is an object with attributes pertaining to the three DCRs that are created by this module."
+  type = object({
+    change_tracking = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+    vm_insights = object({
+      enabled  = optional(bool, true)
+      name     = string
+      location = optional(string, null)
+      tags     = optional(map(string), null)
+    })
+    defender_sql = object({
+      enabled                                                = optional(bool, true)
+      name                                                   = string
+      location                                               = optional(string, null)
+      tags                                                   = optional(map(string), null)
+      enable_collection_of_sql_queries_for_security_research = optional(bool, false)
+    })
+  })
+  default = {
+    change_tracking = {
+      enabled = false
+      name    = "dcr-change-tracking-management-prd"
+    }
+    vm_insights = {
+      enabled = false
+      name    = "dcr-vm-insights-management-prd"
+    }
+    defender_sql = {
+      enabled = false
+      name    = "dcr-defender-sql-management-prd"
+    }
+  }
+}
