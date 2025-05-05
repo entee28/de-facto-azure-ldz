@@ -10,20 +10,8 @@ module "management" {
   resource_group_creation_enabled = false
 
   user_assigned_managed_identities = var.user_assigned_managed_identities
-  data_collection_rules = {
-    change_tracking = {
-      name = local.change_tracking_dcr_name
-      tags = var.tags
-    }
-    vm_insights = {
-      name = local.vm_insights_dcr_name
-      tags = var.tags
-    }
-    defender_sql = {
-      name = local.defender_sql_dcr_name
-      tags = var.tags
-    }
-  }
+  data_collection_rules            = var.data_collection_rules
+
   automation_account_identity = {
     type = "SystemAssigned"
   }
