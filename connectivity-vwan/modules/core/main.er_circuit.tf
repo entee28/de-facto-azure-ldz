@@ -18,6 +18,7 @@ module "connectivity_er_circuit" {
   peerings = each.value.peerings
 
   express_route_circuit_authorizations = each.value.express_route_circuit_authorizations
+  exr_circuit_tags                     = each.value.exr_circuit_tags
 
   depends_on = [module.connectivity_resourcegroups]
 }

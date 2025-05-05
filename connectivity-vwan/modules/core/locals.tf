@@ -20,6 +20,14 @@ locals {
   firewall_name              = coalesce(try(var.firewall.name, null), local.default_firewall_name)
   firewall_policy_name       = coalesce(try(var.firewall_policy.name, null), local.default_firewall_policy_name)
 
+  express_route_gateway_resource_id = var.express_route_gateway != null ? format(
+    "/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Network/expressRouteGateways/%s",
+    var.subscription_id,
+    local.hub_resource_group_name,
+    local.express_route_gateway_name
+  ) : null
+
+
   # Merge hub and sidecar resource groups
   resource_groups = merge(
     # Hub resource group (always created)

@@ -39,6 +39,7 @@ variable "er_circuits" {
     express_route_circuit_authorizations = optional(map(object({
       name = string
     })), {})
+    exr_circuit_tags = optional(map(string), null)
     diagnostic_settings = optional(map(object({
       name                                     = optional(string, null)
       log_categories                           = optional(set(string), [])
