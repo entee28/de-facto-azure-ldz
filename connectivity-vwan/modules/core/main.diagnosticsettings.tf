@@ -32,6 +32,7 @@ resource "azurerm_monitor_diagnostic_setting" "firewall_diagnostic_settings" {
       category = metric.value
     }
   }
+  depends_on = [module.vwan_with_vhub]
 }
 
 # VPN Gateway Diagnostic Settings
@@ -68,6 +69,7 @@ resource "azurerm_monitor_diagnostic_setting" "vpn_gateway_diagnostic_settings" 
       category = metric.value
     }
   }
+  depends_on = [module.vwan_with_vhub]
 }
 
 # ExpressRoute Gateway Diagnostic Settings
