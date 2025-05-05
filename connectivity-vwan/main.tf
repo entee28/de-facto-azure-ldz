@@ -11,6 +11,19 @@ module "core" {
   connectivity_sidecar_resourcegroups = local.core.connectivity_sidecar_resourcegroups
   sidecar_vnets                       = local.core.sidecar_vnets
   firewall_policy                     = local.core.firewall_policy
+
+  er_circuits = {
+    cmc = {
+      name                  = "erc-cmc"
+      peering_location      = "Singapore"
+      service_provider_name = "Equinix"
+      bandwidth_in_mbps     = 50
+      sku = {
+        tier   = "Standard"
+        family = "MeteredData"
+      }
+    }
+  }
 }
 
 module "private_dns_resolver" {
